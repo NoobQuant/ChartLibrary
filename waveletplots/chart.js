@@ -7,12 +7,35 @@
 
 	
 // Declare some global variables
-var dataNest, allPaths, allLegends;
+var dataNest, allPaths, allLegends, containerCorrector;
+var sBarMinWidth = 758
+var sBarWidth = 310
+
+// Print docuent width
+console.log("Whole document width is " + $( document ).width());
+console.log("Body width is " + d3.select('body').style('width'));
+
+
 
 // Set the dimensions of the canvas / graph
-var margin = {top: 30, right: 400, bottom: 70, left: 100};
-var widthChart = parseInt(d3.select('body').style('width'), 10) - margin.left - margin.right;
-var heightChart = 500 - margin.top - margin.bottom;
+//var margin = {top: 30, right: 40, bottom: 70, left: 100};
+var margin = {top: 30, right: 70, bottom: 70, left: 100};
+
+var widthChart
+//var widthChart = parseInt(d3.select('body').style('width'), 10) - margin.left - margin.right - sBarWidth;
+
+if(parseInt(d3.select('body').style('width'), 10) < sBarMinWidth){
+	widthChart = parseInt(d3.select('body').style('width'), 10) - margin.left - margin.right;						
+	
+} else {
+	widthChart = parseInt(d3.select('body').style('width'), 10) - margin.left - margin.right - sBarWidth;			
+}
+
+//var widthChart = 500 - margin.left - margin.right;
+//var widthChart = $( document ).width() - margin.left - margin.right-sBarWidth;
+
+
+var heightChart = 450 - margin.top - margin.bottom;
 
 // Parse the date / time
 var parseDate = d3.time.format("%d.%m.%Y").parse;
@@ -136,39 +159,61 @@ d3.csv("waveletplots/modelTwoOutput.csv", function(error, data) {
 			
 		// Add the Legend
 		allLegends[i] = svg.append("text")
-		.attr("x", -margin.left)		
-		// Assign ID to each legend name
-		//.attr("id", 'legend'+d.key.replace(/\s+/g, '')) // this would assign country		
-		.attr("id", 'legendserie'+currentNum) // assigns "legendserie" + i				
-		.attr("y", (margin.top+10) + legendSpace*(i-1)) 		
-		//.attr("class", "legend") // style the legend 
-		.style("fill", function() { // dynamic colours 
-			return d.color = color(d.key); }) 
-		///*
-		// On-click property to toggle line visibility on-off	
-		.on("click", function(){ 
-		// Determine if current line is visible
-		var active = d.active ? false : true, 
-		newOpacity = active ? 0 : 1;
-		// Hide or show the elements based on the line path ID
-		d3.select("#tag"+d.key.replace(/\s+/g, '')) // start with tag to avoid numbers, strip spaces
-		.transition().duration(100)
-		.style("opacity", newOpacity); 
-		d.active = active;
-		d3.select("#mouse-per-line-" + d.key) // This records tooltip opacity!!
-		  .style("opacity", newOpacity);
-		})
+			
+			.attr("x", -margin.left)
+			
+			// Assign ID to each legend name	
+			.attr("id", 'legendserie'+currentNum) // assigns "legendserie" + i				
+			.attr("y", (margin.top+10) + legendSpace*(i-1)) 			
+			
+			// dynamic colours
+			.style("fill", function() {  
+				return d.color = color(d.key); }) 
+				
+			// On-click property to toggle line visibility on-off	
+			.on("click", function(){ 
+				// Determine if current line is visible
+				var active = d.active ? false : true, 
+				newOpacity = active ? 0 : 1;
+				// Hide or show the elements based on the line path ID
+				d3.select("#tag"+d.key.replace(/\s+/g, '')) // start with tag to avoid numbers, strip spaces
+				.transition().duration(100)
+				.style("opacity", newOpacity); 
+				d.active = active;
+				d3.select("#mouse-per-line-" + d.key) // This records tooltip opacity!!
+				  .style("opacity", newOpacity);
+			})
+			
+			// Mouseover
+			.on("mouseover", function (d) {
+				console.log("Mouseover")
+			    d3.select(this).style("cursor", "pointer");
+			    //add also text highlihgting!
+										
+			})
+			// Mouseout
+			.on("mouseout", function (d) {
+			   d3.select(this).style("cursor", "default");
+			})
 			
     });
-	
 	
 	// Draw lines once intially 
 	drawChart();
 	
 	function drawChart() {
 		// reset the width
-		widthChart = parseInt(d3.select('body').style('width'), 10) - margin.left - margin.right;
-		//widthChart = 1000 - margin.left - margin.right;
+		
+		if(parseInt(d3.select('body').style('width'), 10) < sBarMinWidth){
+			widthChart = parseInt(d3.select('body').style('width'), 10) - margin.left - margin.right;						
+			
+		} else {
+			widthChart = parseInt(d3.select('body').style('width'), 10) - margin.left - margin.right - sBarWidth;			
+		}
+		
+		console.log("Whole document width is " + $( document ).width());
+		console.log("Body width is " + d3.select('body').style('width'));
+		console.log("WidthChart is " + widthChart);
 		
 		// set the svg dimensions
 		svg.attr("width", widthChart + margin.left + margin.right);	
@@ -196,12 +241,6 @@ d3.csv("waveletplots/modelTwoOutput.csv", function(error, data) {
 			
 		});
 	}	
-	
-	
-	// Click all legend titles once
-	clickAll();
-	clickNth(6);
-	
 	
 	// redraw chart on resize
 	window.addEventListener('resize', drawChart);	
@@ -242,7 +281,7 @@ function mouseOverStuff() {
 			tempMouse = mouse[0];  
 			var d = "M" + tempMouse + "," + height;
 			d += " " + tempMouse + "," + 0;
-			console.log(tempMouse)			
+			//console.log(tempMouse)			
 			return d;
 		  });	  
 		  
@@ -276,14 +315,12 @@ function mouseOverStuff() {
  }
 
 function clickAll() {
-	
-	var lines = document.getElementsByClassName('line');
-	
 	// there appears to be a discrepancy with the way jQuery and d3 
 	// handle events that causes a jQuery induced click event 
 	// $("#some-d3-element").click() to not dispatch to the d3 element.
 	// As a woraround this function, found from
-	// http://stackoverflow.com/questions/9063383/how-to-invoke-click-event-programmatically-in-d3
+	// http://stackoverflow.com/questions/9063383/how-to-invoke-click-event-programmatically-in-d3	
+	var lines = document.getElementsByClassName('line');
 	jQuery.fn.d3Click = function () {
 	  this.each(function (i, e) {
 		var evt = new MouseEvent("click");
@@ -301,12 +338,6 @@ function clickAll() {
  function clickNth(seriesNo) {
 	
 	var lines = document.getElementsByClassName('line');
-	
-	// there appears to be a discrepancy with the way jQuery and d3 
-	// handle events that causes a jQuery induced click event 
-	// $("#some-d3-element").click() to not dispatch to the d3 element.
-	// As a woraround this function, found from
-	// http://stackoverflow.com/questions/9063383/how-to-invoke-click-event-programmatically-in-d3
 	jQuery.fn.d3Click = function () {
 	  this.each(function (i, e) {
 		var evt = new MouseEvent("click");
@@ -335,14 +366,13 @@ function clickAll() {
 		let num = i+1;
 		let currentstr = num.toString();		
 		let currentOpacity = lines[i].style.opacity;
-		if(currentOpacity == 0){
+		if(currentOpacity === "0"){
 			$("#legendserie" + currentstr).d3Click();
 		}
 	}
   } 
 
   function hideAll() {
-	var lines = document.getElementsByClassName('line');
 	var lines = document.getElementsByClassName('line');
 	jQuery.fn.d3Click = function () {
 	  this.each(function (i, e) {
@@ -354,7 +384,9 @@ function clickAll() {
 		let num = i+1;
 		let currentstr = num.toString();		
 		let currentOpacity = lines[i].style.opacity;
-		if(currentOpacity == 1){
+		// If series hasn't been physically clicked yet, it will have 
+		// currentOpacity = ""
+		if(currentOpacity === "1" || currentOpacity === "" ){
 			$("#legendserie" + currentstr).d3Click();
 		}
 	}
