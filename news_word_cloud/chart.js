@@ -14,7 +14,9 @@ var margin = {top: 0, right: 50, bottom: 100, left: 0}
 var sBarMinWidth = 758
 var sBarWidth = 310
 var widthChart
-var heightChart = parseInt(d3.select('body').style('height'), 10) - margin.top - margin.bottom  
+
+//var heightChart = parseInt(d3.select('body').style('height'), 10) - margin.top - margin.bottom  
+var heightChart = 500 - margin.top - margin.bottom  
 
 if(parseInt(d3.select('body').style('width'), 10) < sBarMinWidth){
   widthChart = parseInt(d3.select('body').style('width'), 10) - margin.left - margin.right         
@@ -361,7 +363,8 @@ document.getElementById('myVal').onkeypress = function(e){
 function drawChart() {
     // reset the width
     
-    heightChart = parseInt(d3.select('body').style('height'), 10) - margin.top - margin.bottom  
+    //heightChart = parseInt(d3.select('body').style('height'), 10) - margin.top - margin.bottom  
+    heightChart = 500 - margin.top - margin.bottom  
 
     if(parseInt(d3.select('body').style('width'), 10) < sBarMinWidth){
       widthChart = parseInt(d3.select('body').style('width'), 10) - margin.left - margin.right;           
