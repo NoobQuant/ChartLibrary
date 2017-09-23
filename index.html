@@ -87,6 +87,7 @@ https://github.com/secondtruth/startmin
                         <ul class="nav nav-second-level">
                             <li>
                                 <a href="waveletcycles.html">Financial cycles</a>
+                                <a href="news_word_cloud.html">Finnish News Word Cloud</a>
                             </li> 
                         </ul>
                     </li>                     
@@ -98,7 +99,8 @@ https://github.com/secondtruth/startmin
 
     <!-- Page Content -->
 		<!-- Sources for stuff -->	
-		<link rel="stylesheet" href="waveletplots/style.css">		
+        <!-- waveletpot css should b eremoved when u figure out what is messing up the fonts in it!! -->
+        <link rel="stylesheet" href="waveletplots/style.css">            	
 		<script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>    	
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<!-- Page wrapper -->
@@ -110,16 +112,23 @@ https://github.com/secondtruth/startmin
 				<p> Select chart from the dropdown menu. </p>
 				
 				<ol>
-				  <li>Financial Cycles: Financial cycle plots from the paper
+				  <li> <b>Financial Cycles</b><br>
+                      Financial cycle plots from the paper
 					  Wavelet decomposition of the financial cycle: An early warning system for financial tsunamis -  
 					  Bank of Finland Discussion Paper Series 11/2017.
-				  </li>
+				  </li><br>
+                  <li> <b>Finnish News Word Cloud</b><br>
+                      Word cloud representation of the most frequent words appearing on the frontpage of Helsingin Sanomat, leading Finnish news paper.
+                  </li>                  
 				</ol> 				
 				
 				<p> 
-				The chart library framework is based on the <a href="https://github.com/secondtruth/startmin">startmin</a> dashboard template. 
+                <br>
+				See a respective chart for more information.
+                The chart library framework is based on the <a href="https://github.com/secondtruth/startmin">startmin</a> dashboard template. 
 				Charts are produced using the <a href="https://d3js.org/">d3 Javascript library</a> with the help of
-				the excellent book <a href="https://leanpub.com/D3-Tips-and-Tricks">D3 Tips and Tricks</a> by d3noob. The Chart Library unfortunately doesn't yet support mobile
+				the excellent book <a href="https://leanpub.com/D3-Tips-and-Tricks">D3 Tips and Tricks</a> by d3noob as well as many examples found online. Particular source
+                links are given in the source code. The Chart Library unfortunately doesn't yet fully support mobile
 				devices.
 				</p>					
 
