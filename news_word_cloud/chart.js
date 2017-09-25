@@ -5,8 +5,10 @@
   // http://bl.ocks.org/eesur/9910343
 
 
-var maxweek = 37
-var minweek = 35
+var maxweek = 38
+var minweek = 37
+var maxyear = 2017
+var minyear = 2017
 var week_number = 35
 var dataset = []
 
@@ -35,11 +37,13 @@ var svg = d3.select("#chart") // select chart that is defined in dashboard html 
 
 // Read a change in node count slider
 d3.select("#nNodes").on("input", function() {
-  restartNodes(+this.value,svg,dataset, +document.getElementById("week_field").value)
+  restartNodes(+this.value,svg,dataset, +document.getElementById("week_field").value,
+               +document.getElementById("year_field").value)
 })
 
 // Start with 20 nodes
-restartNodes(20,svg,dataset,+document.getElementById("week_field").value)
+restartNodes(20,svg,dataset,+document.getElementById("week_field").value,
+              +document.getElementById("year_field").value)
 
 
 
@@ -49,7 +53,7 @@ restartNodes(20,svg,dataset,+document.getElementById("week_field").value)
 
 // Main function to do all the lifting 
 ////////////////////////////////////////
-function restartNodes(n_nodes,svg,rem_words_array, crt_week) {
+function restartNodes(n_nodes,svg,rem_words_array, crt_week,crt_year) {
 
 
   // Remove all nodes form canvas
@@ -66,7 +70,7 @@ function restartNodes(n_nodes,svg,rem_words_array, crt_week) {
   d3.select("#nNodes-value").text(n_nodes)
   d3.select("#nNodes").property("value", n_nodes)
 
-  var input_json = "news_word_cloud/jsonfiles/" + "HS_output_week_"+crt_week+"_lemmatized.json" 
+  var input_json = "news_word_cloud/jsonfiles/" + "HS_output_"+ crt_year + "_week_" + crt_week +"_lemmatized.json" 
  
   // Data from json file
   d3.json(input_json, function(error, json) {  
@@ -187,7 +191,7 @@ function restartNodes(n_nodes,svg,rem_words_array, crt_week) {
 
 
       // redraw chart on resize
-      window.addEventListener('resize', drawChart)
+      //window.addEventListener('resize', drawChart)
 
 
 
@@ -278,13 +282,15 @@ function restartNodes(n_nodes,svg,rem_words_array, crt_week) {
 function plus_node(){
    +document.getElementById("nNodes").value++
    restartNodes(+document.getElementById("nNodes").value,svg,dataset,
-                +document.getElementById("week_field").value)
+                +document.getElementById("week_field").value,
+                +document.getElementById("year_field").value)
 }
 
 function minus_node(){
    +document.getElementById("nNodes").value--
    restartNodes(+document.getElementById("nNodes").value,svg,dataset,
-                +document.getElementById("week_field").value)
+                +document.getElementById("week_field").value,
+                +document.getElementById("year_field").value)
 }
 
 
@@ -293,7 +299,8 @@ function plus_week(){
    if ((+document.getElementById("week_field").value + 1) < (maxweek+1)) {
      +document.getElementById("week_field").value++
      restartNodes(+document.getElementById("nNodes").value,svg,dataset,
-      +document.getElementById("week_field").value)
+      +document.getElementById("week_field").value,
+      +document.getElementById("year_field").value)
    }
 }
 
@@ -301,13 +308,32 @@ function minus_week(){
    if ((+document.getElementById("week_field").value - 1) > (minweek-1)) {
      +document.getElementById("week_field").value--
      restartNodes(+document.getElementById("nNodes").value,svg,dataset,
-      +document.getElementById("week_field").value)
+      +document.getElementById("week_field").value,
+      +document.getElementById("year_field").value)
+   } 
+}
+
+function plus_year(){
+
+   if ((+document.getElementById("year_field").value + 1) < (maxyear+1)) {
+     +document.getElementById("year_field").value++
+     restartNodes(+document.getElementById("nNodes").value,svg,dataset,
+      +document.getElementById("week_field").value,
+      +document.getElementById("year_field").value)
+   }
+}
+
+function minus_year(){
+   if ((+document.getElementById("year_field").value - 1) > (minyear-1)) {
+     +document.getElementById("year_field").value--
+     restartNodes(+document.getElementById("nNodes").value,svg,dataset,
+      +document.getElementById("week_field").value,
+      +document.getElementById("year_field").value)
    } 
 }
 
 
-
-function handleClick(event){
+function handleRemoveClick(event){
 
     // Don't do anythin if input is ""
     if (!document.getElementById("myVal").value){
@@ -318,6 +344,45 @@ function handleClick(event){
     // Reset form
     document.getElementById("myVal").value = ""
     return false;
+}
+
+function handleSearchClick(event){
+   
+
+      
+
+    var input_json = "news_word_cloud/jsonfiles/" + "HS_output_"+ 
+        (+document.getElementById("year_field").value) + 
+        "_week_" + (+document.getElementById("week_field").value) +"_lemmatized.json" 
+ 
+    // Data from json file
+    d3.json(input_json, function(error, json) {  
+      if (error) throw error
+
+      var flag = false
+      var data = json
+      var search_word = document.getElementById("wordSearch").value 
+  
+      data.forEach(function(crt_word) {
+
+        if (crt_word.word === search_word){
+
+            flag = true
+            document.getElementById("word_search_field").innerHTML = 
+              "Word '" + search_word + "' appears " + crt_word.size + " times!"
+        }
+
+
+
+      })
+
+      if (flag === false){
+        document.getElementById("word_search_field").innerHTML = 
+        "Word '" + search_word + "' wasn't found!"
+
+      }
+    })
+
 }
 
 
@@ -331,7 +396,8 @@ function draw(val){
     }
     d3.select("#excluded_words")[0][0].value = crt_text               
     restartNodes(+document.getElementById("nNodes").value,svg,dataset,
-      +document.getElementById("week_field").value)    
+      +document.getElementById("week_field").value,
+      +document.getElementById("year_field").value)    
 }
 
 function remove_last_word(){
@@ -342,23 +408,31 @@ function remove_last_word(){
     crt_text = lines.join(", ");
     d3.select("#excluded_words")[0][0].value = crt_text       
     restartNodes(+document.getElementById("nNodes").value,svg,dataset,
-      +document.getElementById("week_field").value) 
+      +document.getElementById("week_field").value,
+      +document.getElementById("year_field").value) 
 }
 
 function checkbox_update(){
 
     restartNodes(+document.getElementById("nNodes").value,svg,dataset,
-      +document.getElementById("week_field").value)   
+      +document.getElementById("week_field").value,
+      +document.getElementById("year_field").value)   
 
 }
 
 document.getElementById('myVal').onkeypress = function(e){
     if (!e) e = window.event
     if (e.keyCode == '13'){
-      return handleClick()
+      return handleRemoveClick()
     }
 }
 
+document.getElementById('wordSearch').onkeypress = function(e){
+    if (!e) e = window.event
+    if (e.keyCode == '13'){
+      return handleSearchClick()
+    }
+}
 
 function drawChart() {
     // reset the width
@@ -381,7 +455,10 @@ function drawChart() {
     svg.attr("width", widthChart + margin.left + margin.right); 
     
     restartNodes(+document.getElementById("nNodes").value,svg,dataset,
-      +document.getElementById("week_field").value)  
+      +document.getElementById("week_field").value,
+      +document.getElementById("year_field").value)  
     
   } 
   
+
+ 

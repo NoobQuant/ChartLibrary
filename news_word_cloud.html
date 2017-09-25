@@ -131,8 +131,9 @@ https://github.com/secondtruth/startmin
                                     <ul class="nav nav-tabs">
                                         <li class="active"><a href="#tab-primary-1" data-toggle="tab">Number of words</a></li>
                                         <li><a href="#tab-primary-2" data-toggle="tab">Choose words</a></li>
-                                        <li><a href="#tab-primary-3" data-toggle="tab">Week</a></li>
-                                        <li><a href="#tab-primary-4" data-toggle="tab">About</a></li>
+                                        <li><a href="#tab-primary-3" data-toggle="tab">Time period</a></li>
+                                        <li><a href="#tab-primary-4" data-toggle="tab">Search for word</a></li>                                        
+                                        <li><a href="#tab-primary-5" data-toggle="tab">About</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -179,7 +180,7 @@ https://github.com/secondtruth/startmin
 
                                         <div class="col-md-3">
                                             <div id="myValForm" class="form-group">
-                                                <input style=" height:34px; margin-top:10px;" id = "myVal" style="height:30px;" class="form-control" id="myVal" placeholder="Type word and hit enter to remove">
+                                                <input style=" height:34px; margin-top:10px;" id = "myVal" class="form-control" placeholder="Type word and submit to remove">
                                             </div>
                                         </div>
 
@@ -231,24 +232,60 @@ https://github.com/secondtruth/startmin
 
                                     <div style="min-height:70px;" class="tab-pane fade" id="tab-primary-3">
                                         
-                                        <div align="center" class="col-md-3"></div>
+                                        <div align="center" class="col-md-1"></div>
                                         <div style="display: inline-block; margin-top:16px; text-align: right;" class="col-md-2">
-                                            <b>Week number</b>:
+                                            <b>Week and year</b>:
                                         </div>
 
-                                        <div style="margin-top:10px;" align="left" class="col-md-3">
-                                            <input style=" width:25px" type="text" value=37 step=1 id="week_field" readonly></input>&nbsp;
+                                        <div style="margin-top:10px;" align="left" class="col-md-6">
+                                            <input style=" width:25px" type="text" value=38 step=1 id="week_field" readonly></input>&nbsp;
                                             <button class="btn btn-danger" onclick="minus_week()">-</button>
                                             <button class="btn btn-primary" onclick="plus_week()">+</button>
-                                        </div>                                                                                
+                                            &nbsp;
+                                            <input style=" width:45px" type="text" value=2017 step=1 id="year_field" readonly></input>&nbsp;
+                                            <button class="btn btn-danger" onclick="minus_year()">-</button>
+                                            <button class="btn btn-primary" onclick="plus_year()">+</button>                                            
+                                        </div>      
+                                       
 
                                     </div>
 
+
                                     <div style="min-height:70px;" class="tab-pane fade" id="tab-primary-4">
                     
-                                        Word cloud representation of most frequent words during a given week on the online front page of Helsingin Sanomat, the leading Finnish newspaper. Words from the front page are extracted once per day at 1pm UTC and pooled toghether for respective week. Nouns (blue), verbs (green), adjectives (orange), adverbs (sand), and numerals (yellow) are included while other parts of speech are excluded. Words are treated using FinnPos, an outstanding data-driven 
+										<div class="col-md-3">
+
+                                             <input style=" height:34px; margin-top:10px;" id = "wordSearch" style="height:30px;" class="form-control"  placeholder="Type word and submit to search">
+                                            
+                                        </div>     
+
+										<div class="col-md-5">
+
+											<div id="word_search_field" class="alert alert-warning" style=" height:50px; margin-top:0px;">
+			                                    Type a word and hit enter to search for appearance
+			                                </div>
+										</div>
+
+                                
+                                
+
+
+
+
+                                    </div>                                    
+
+
+                                    <div style="min-height:70px;" class="tab-pane fade" id="tab-primary-5">
+                    
+                                        Word cloud representation of most frequent words during a given week on the online front page of Helsingin Sanomat, the leading Finnish newspaper. Words from the front page are extracted once per day at 1pm UTC and pooled toghether for respective week. Nouns (blue), verbs (green), adjectives (orange), adverbs (sand), and numerals (yellow) are included while other parts of speech are excluded. Node sizes imply the relative appearance frequency of words: more common words have a bigger node, and vice versa. The word cloud has data from week 37 of 2017 onwards. <br><br>
+
+
+                                        Under "Number of words" tab one can using the slider display the N most commonly appearing words. Under tab "Choose words" one can decide which parts of speech are diplayed, as well as exclude individual words from the word cloud. The time perod (week) is determined under tab "Time period". In case one wants to search for the frequency of appearance of a particular word, this can be done under tab "Search for word". <br><br>
+
+
+                                        Words are treated using FinnPos, an outstanding data-driven 
                                         <a href="https://github.com/mpsilfve/FinnPos">open-source lemmatizer</a>
-                                        by Miikka Silfverberg and Teemu Ruokolainen.
+                                        by Miikka Silfverberg and Teemu Ruokolainen.                                        
 
                                     </div>                                    
 
