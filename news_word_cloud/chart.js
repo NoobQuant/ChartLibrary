@@ -362,6 +362,8 @@ function handleSearchClick(event){
       var flag = false
       var data = json
       var search_word = document.getElementById("wordSearch").value 
+      search_word = search_word.toLowerCase()
+
   
       data.forEach(function(crt_word) {
 

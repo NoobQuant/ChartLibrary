@@ -129,17 +129,17 @@ https://github.com/secondtruth/startmin
 
                                 <div class="pull-left">
                                     <ul class="nav nav-tabs">
-                                        <li class="active"><a href="#tab-primary-1" data-toggle="tab">Number of words</a></li>
+                                        <li><a href="#tab-primary-1" data-toggle="tab">Number of words</a></li>
                                         <li><a href="#tab-primary-2" data-toggle="tab">Choose words</a></li>
                                         <li><a href="#tab-primary-3" data-toggle="tab">Time period</a></li>
-                                        <li><a href="#tab-primary-4" data-toggle="tab">Search for word</a></li>                                        
-                                        <li><a href="#tab-primary-5" data-toggle="tab">About</a></li>
+                                        <li><a href="#tab-primary-4" data-toggle="tab">Search for word</a></li>                       
+                                        <li class="active"><a href="#tab-primary-5" data-toggle="tab">About</a></li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="panel-body">
                                 <div class="tab-content">
-                                    <div style="min-height:70px;" class="tab-pane fade in active" id="tab-primary-1">
+                                    <div style="min-height:70px;" class="tab-pane fade" id="tab-primary-1">
 
 
                                         <div class="col-md-3"></div>
@@ -275,15 +275,15 @@ https://github.com/secondtruth/startmin
                                     </div>                                    
 
 
-                                    <div style="min-height:70px;" class="tab-pane fade" id="tab-primary-5">
+                                    <div style="min-height:70px;" class="tab-pane fade in active" id="tab-primary-5">
                     
-                                        Word cloud representation of most frequent words during a given week on the online front page of Helsingin Sanomat, the leading Finnish newspaper. Words from the front page are extracted once per day at 1pm UTC and pooled toghether for respective week. Nouns (blue), verbs (green), adjectives (orange), adverbs (sand), and numerals (yellow) are included while other parts of speech are excluded. Node sizes imply the relative appearance frequency of words: more common words have a bigger node, and vice versa. The word cloud has data from week 37 of 2017 onwards. <br><br>
+                                        Word cloud representation of most frequent words during a given week on the online front page of Helsingin Sanomat, the leading Finnish newspaper. Words from the front page are extracted once per day at 1pm UTC and pooled toghether for respective week. Nouns (blue), verbs (green), adjectives (orange), adverbs (sand), and numerals (yellow) are included while other parts of speech are excluded. Node size implies the relative appearance frequency of a word: more common words have a bigger nodes, and vice versa. The word cloud has data from week 37 of 2017 onwards. <br><br>
 
 
-                                        Under "Number of words" tab one can using the slider display the N most commonly appearing words. Under tab "Choose words" one can decide which parts of speech are diplayed, as well as exclude individual words from the word cloud. The time perod (week) is determined under tab "Time period". In case one wants to search for the frequency of appearance of a particular word, this can be done under tab "Search for word". <br><br>
+                                        Under "Number of words" tab one can using the slider display the N most commonly appearing words. Under tab "Choose words" one can decide which parts of speech are diplayed, as well as exclude individual words from the word cloud. The time period (week) to be displayed is determined under tab "Time period". One can query for the appearance frequency of a particular word under tab "Search for word". <br><br>
 
 
-                                        Words are treated using FinnPos, an outstanding data-driven 
+                                        Words in the cloud are treated using FinnPos, an outstanding data-driven 
                                         <a href="https://github.com/mpsilfve/FinnPos">open-source lemmatizer</a>
                                         by Miikka Silfverberg and Teemu Ruokolainen.                                        
 
