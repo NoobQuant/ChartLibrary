@@ -339,7 +339,8 @@ function handleRemoveClick(event){
     if (!document.getElementById("myVal").value){
       return false
     }
-    draw(document.getElementById("myVal").value)
+    
+    draw(document.getElementById("myVal").value.toLowerCase())
 
     // Reset form
     document.getElementById("myVal").value = ""
