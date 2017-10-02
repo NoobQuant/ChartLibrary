@@ -5,7 +5,7 @@
   // http://bl.ocks.org/eesur/9910343
 
 
-var maxweek = 38
+var maxweek = 39
 var minweek = 37
 var maxyear = 2017
 var minyear = 2017
