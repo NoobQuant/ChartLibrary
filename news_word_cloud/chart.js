@@ -12,13 +12,13 @@ var minyear = 2017
 var week_number = 35
 var dataset = []
 
-var margin = {top: 0, right: 50, bottom: 100, left: 0}
+var margin = {top: 0, right: 50, bottom: 0, left: 0}
 var sBarMinWidth = 758
 var sBarWidth = 310
 var widthChart
 
-//var heightChart = parseInt(d3.select('body').style('height'), 10) - margin.top - margin.bottom  
-var heightChart = 500 - margin.top - margin.bottom  
+
+var heightChart = 600 - margin.top - margin.bottom  
 
 if(parseInt(d3.select('body').style('width'), 10) < sBarMinWidth){
   widthChart = parseInt(d3.select('body').style('width'), 10) - margin.left - margin.right         
@@ -403,12 +403,21 @@ function draw(val){
       +document.getElementById("year_field").value)    
 }
 
-function remove_last_word(){
-    dataset.pop()
-    var crt_text = d3.select("#excluded_words")[0][0].value
-    var lines = crt_text.split(", ");
-    lines.splice(-1,1);
-    crt_text = lines.join(", ");
+function restore_words(type="one"){
+    var crt_text
+    if (type === "one"){
+        dataset.pop()
+        crt_text = d3.select("#excluded_words")[0][0].value
+        var lines = crt_text.split(", ")
+        lines.splice(-1,1)
+        crt_text = lines.join(", ")        
+    } else {
+        dataset = []
+        crt_text = ""
+        
+    }    
+
+    
     d3.select("#excluded_words")[0][0].value = crt_text       
     restartNodes(+document.getElementById("nNodes").value,svg,dataset,
       +document.getElementById("week_field").value,
@@ -462,6 +471,37 @@ function drawChart() {
       +document.getElementById("year_field").value)  
     
   } 
+  
+function remove_common_words(){
+    
+    d3.json("news_word_cloud/common_words.json", function(data) {
+      var word_bulk = ""
+      data.forEach(function(crt_word) {
+        if (word_bulk === ""){
+            word_bulk = crt_word.word
+        } else {
+              word_bulk = word_bulk + ", " + crt_word.word
+        }
+        dataset.push(crt_word.word)
+
+      })
+
+    var crt_text = d3.select("#excluded_words")[0][0].value
+    if (crt_text === "") {
+      crt_text = word_bulk      
+    } else {
+      crt_text = crt_text +", " + word_bulk      
+    }
+
+    d3.select("#excluded_words")[0][0].value = crt_text
+    restartNodes(+document.getElementById("nNodes").value,svg,dataset,
+      +document.getElementById("week_field").value,
+      +document.getElementById("year_field").value)    
+
+    })
+  
+
+}  
   
 
  

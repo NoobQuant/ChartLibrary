@@ -188,25 +188,30 @@ https://github.com/secondtruth/startmin
                                         <div align="center" class="col-md-5">
 
                                             <div align="center" class="col-md-3">
-                                                <input style=" margin-top: 14px;" name="Remove"  type="button" value="Restore word" onclick="remove_last_word()" >
+                                                <input style=" margin-top: 17px; font-size: 11px; height:26px;width:135px;" name="CommonWords"  type="button" value="Remove common words" onclick="remove_common_words()" >
                                             </div>
 
-                                            <div class="col-md-1"></div>
-                                            <div class="col-md-7">
+                                            <div align="center" class="col-md-3">
+                                                <input style=" margin-top: 5px; font-size: 14px; height:26px;width:135px;" name="Remove"  type="button" value="Restore last word"  onclick="restore_words('one')" >
+                                                <input style=" margin-top: 5px; font-size: 14px; height:26px;width:135px;" name="Remove"  type="button" value="Restore all words" onclick="restore_words('all')" >                                                                                            
+
+                                            </div>
+                                            
+                                            <div class="col-md-5">
                                                 
                                                 <form>
                                                 <div align="left" class="checkbox" onchange="checkbox_update()">
-                                                    <label for="cb_noun"><input id="cb_noun" type="checkbox" checked="checked" /> <span>Noun</span></label>
+                                                    <label for="cb_noun"><input id="cb_noun" type="checkbox" checked="checked" /> <span>Nouns</span></label>
 
-                                                    <label for="cb_verb"><input id="cb_verb" type="checkbox" checked="checked" /> <span>Verb</span></label>
+                                                    <label for="cb_verb"><input id="cb_verb" type="checkbox" checked="checked" /> <span>Verbs</span></label>
 
-                                                    <label for="cb_adjective"><input id="cb_adjective" type="checkbox" checked="checked" /> <span>Adjective</span></label>
-
-
-                                                    <label for="cb_adverb"><input id="cb_adverb" type="checkbox" checked="checked" /> <span>Adverb</span></label>
+                                                    <label for="cb_adjective"><input id="cb_adjective" type="checkbox" checked="checked" /> <span>Adjectives</span></label>
 
 
-                                                    <label for="cb_numeral"><input id="cb_numeral" type="checkbox" checked="checked" /> <span>Numeral</span></label>                                                                                                                                                                    
+                                                    <label for="cb_adverb"><input id="cb_adverb" type="checkbox" checked="checked" /> <span>Adverbs</span></label>
+
+
+                                                    <label for="cb_numeral"><input id="cb_numeral" type="checkbox" checked="checked" /> <span>Numerals</span></label>                                                                                                                                                                    
                                                 </div>
                                                 </form>
 
@@ -280,7 +285,7 @@ https://github.com/secondtruth/startmin
                                         Word cloud representation of most frequent words during a given week on the online front page of Helsingin Sanomat, the leading Finnish newspaper. Words from the front page are extracted once per day at 1pm UTC and pooled toghether for respective week. Nouns (blue), verbs (green), adjectives (orange), adverbs (sand), and numerals (yellow) are included while other parts of speech are excluded. Node size implies the relative appearance frequency of a word: more common words have a bigger nodes, and vice versa. The word cloud has data from week 37 of 2017 onwards. <br><br>
 
 
-                                        Under "Number of words" tab one can using the slider display the N most commonly appearing words. Under tab "Choose words" one can decide which parts of speech are diplayed, as well as exclude individual words from the word cloud. The time period (week) to be displayed is determined under tab "Time period". One can query for the appearance frequency of a particular word under tab "Search for word". <br><br>
+                                        Under "Number of words" tab one can using the slider display the N most commonly appearing words. Under tab "Choose words", one can decide which parts of speech are diplayed. Here user can also exclude words from the word cloud (either individually or the most common words in bulk). Excluded words are displayed in the text field on the right-hand side. The time period (week) to be displayed is determined under tab "Time period". One can query for the appearance frequency of a particular word under tab "Search for word". <br><br>
 
 
                                         Words in the cloud are treated using FinnPos, an outstanding data-driven 
