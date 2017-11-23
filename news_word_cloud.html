@@ -42,6 +42,9 @@ https://github.com/secondtruth/startmin
     <!-- Custom Fonts -->
     <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css"> 
 
+    <!-- checkbox css -->
+    <link href="css/checkboxes.css" rel="stylesheet">    
+    
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -187,33 +190,37 @@ https://github.com/secondtruth/startmin
                                         
                                         <div align="center" class="col-md-5">
 
-                                            <div align="center" class="col-md-3">
-                                                <input style=" margin-top: 17px; font-size: 11px; height:26px;width:135px;" name="CommonWords"  type="button" value="Remove common words" onclick="remove_common_words()" >
+                                            <div align="center" class="col-md-4">
+                                                <input style=" margin-top: 17px; margin-left: -30px; font-size: 11px;" name="CommonWords"  type="button" value="Remove common words" onclick="remove_common_words()" >
                                             </div>
 
                                             <div align="center" class="col-md-3">
-                                                <input style=" margin-top: 5px; font-size: 14px; height:26px;width:135px;" name="Remove"  type="button" value="Restore last word"  onclick="restore_words('one')" >
-                                                <input style=" margin-top: 5px; font-size: 14px; height:26px;width:135px;" name="Remove"  type="button" value="Restore all words" onclick="restore_words('all')" >                                                                                            
+                                                <input style=" margin-top: 5px; font-size: 10px;" name="Remove"  type="button" value="Restore last word"  onclick="restore_words('one')" >
+                                                <input style=" margin-top: 5px; font-size: 10px;" name="Remove"  type="button" value="Restore all words" onclick="restore_words('all')" >                                                                                            
 
                                             </div>
                                             
-                                            <div class="col-md-5">
-                                                
+                                            <div align="center" class="col-md-5">
+<!--                                               
                                                 <form>
-                                                <div align="left" class="checkbox" onchange="checkbox_update()">
+                                                <div align="center" class="checkbox" onchange="checkbox_update()">
                                                     <label for="cb_noun"><input id="cb_noun" type="checkbox" checked="checked" /> <span>Nouns</span></label>
-
                                                     <label for="cb_verb"><input id="cb_verb" type="checkbox" checked="checked" /> <span>Verbs</span></label>
-
                                                     <label for="cb_adjective"><input id="cb_adjective" type="checkbox" checked="checked" /> <span>Adjectives</span></label>
-
-
                                                     <label for="cb_adverb"><input id="cb_adverb" type="checkbox" checked="checked" /> <span>Adverbs</span></label>
-
-
                                                     <label for="cb_numeral"><input id="cb_numeral" type="checkbox" checked="checked" /> <span>Numerals</span></label>                                                                                                                                                                    
                                                 </div>
                                                 </form>
+-->                                                
+                                                <form>
+                                                  <div class="checkboxes" onchange="checkbox_update()">
+                                                    <label for="cb_noun"><input type="checkbox" id="cb_noun" checked="checked" /> <span>Nouns</span></label>
+                                                    <label for="cb_verb"><input type="checkbox" id="cb_verb" checked="checked" /> <span>Verbs</span></label>
+                                                    <label for="cb_adjective"><input type="checkbox" id="cb_adjective" checked="checked" /> <span>Adjec.</span></label>
+                                                    <label for="cb_adverb"><input type="checkbox" id="cb_adverb" checked="checked" /> <span>Adverbs</span></label>
+                                                    <label for="cb_numeral"><input type="checkbox" id="cb_numeral" checked="checked" /> <span>Numerals</span></label>                                                    
+                                                  </div>
+                                                </form>                                                
 
                         
                                             </div>
@@ -243,7 +250,7 @@ https://github.com/secondtruth/startmin
                                         </div>
 
                                         <div style="margin-top:10px;" align="left" class="col-md-6">
-                                            <input style=" width:25px" type="text" value=39 step=1 id="week_field" readonly></input>&nbsp;
+                                            <input style=" width:25px" type="text" value=40 step=1 id="week_field" readonly></input>&nbsp;
                                             <button class="btn btn-danger" onclick="minus_week()">-</button>
                                             <button class="btn btn-primary" onclick="plus_week()">+</button>
                                             &nbsp;
