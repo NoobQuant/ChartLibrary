@@ -42,6 +42,9 @@ https://github.com/secondtruth/startmin
     <!-- Custom Fonts -->
     <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css"> 
 
+    <!-- checkbox css -->
+    <link href="css/checkboxes.css" rel="stylesheet">    
+    
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -50,6 +53,7 @@ https://github.com/secondtruth/startmin
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
+
 <body>
 
 <div id="wrapper">
@@ -87,9 +91,9 @@ https://github.com/secondtruth/startmin
                         <ul class="nav nav-second-level">
                             <li>
                                 <a href="waveletcycles.html">Financial cycles</a>
-                                <a href="applied_data_science.html">Applied Data Science</a>                                
-                                <a href="news_word_cloud.html">Finnish News Word Cloud</a>
-                                <!--<a href="news_word_cloud.html">Finnish News Word Cloud</a>  -->                                
+                                <a href="applied_data_science.html">Applied Data Science</a>
+                                <a href="news_word_cloud.html">Finnish News Word Cloud</a>                                
+                                <!-- <a href="news_word_cloud.html">Finnish News Word Cloud</a> -->                                
                             </li> 
                         </ul>
                     </li>                     
@@ -101,55 +105,68 @@ https://github.com/secondtruth/startmin
 
     <!-- Page Content -->
 		<!-- Sources for stuff -->	
-		<link rel="stylesheet" href="waveletplots/style.css">
+		<link rel="stylesheet" href="news_word_cloud/style.css">
 		<script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>    	
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-		<!-- Page wrapper -->
-		<div id="page-wrapper">
-			<div class="container-fluid">
-				<h1 class="page-header">Financial cycles in European countries</h1>
-				
-				<!-- Hide button-->	
-				<button type="button" 
-						class="btn btn-danger" 
-						id="hidebutton"
-						onclick="hideAll()"
-						>Hide all</button>
-						
-				<!-- Show button-->
-				<button type="button" 
-						class="btn btn-primary" 
-						id="showbutton"
-						onclick="showAll()"
-						>Show all</button>	
-						
-				<h5>Click country names to hide/show cycle.
-				</h5>		
-										
 
-				<!-- Chart-->			
-				<div class="row">		
-					<!-- Container for chart-->
-					<div class="col-xs-8" id="chart">						
-					</div>				
-				</div>
-				
-				<!-- Chart js file-->
-				<script src="waveletplots/chart.js"></script>				
 
-				<div class="col-xs-12" id="captation">
-				<h5>Chart exhibits financial cycles for 13 European countries as well 
-						as for the euro area aggregate. Vertical axis can be understood
-						as an index where values above zero imply increasing economic activity, whereas 
-						values below zero imply dampened economic activity. The horizontal axis describes
-						time on quarterly frequency. Latest observation is currently 2017Q1 (except for Finland 
-						2016Q4). The cycles are obtained using the methodology described in Voutilainen (2017): <i>Wavelet decomposition of the financial cycle: An early warning system for financial tsunamis</i> - Bank of Finland Discussion Paper Series 11/2017.
-				</h5>
-				<h5>Download chart data in .csv format <a href="waveletplots/modelTwoOutput.csv">here</a>. </h5>
-				</div>
-			
-			</div>		
-		</div>
+		<div  id="page-wrapper">
+
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Visualizations from course Applied Data Science</h1>
+                    </div>
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-lg-12">
+                        
+
+                        <div  class="panel tabbed-panel panel-primary">
+                            <div class="panel-heading clearfix">
+
+                                <div class="pull-left">
+                                    <ul class="nav nav-tabs">
+                                        <li><a href="#tab-primary-1" data-toggle="tab">Chart 1</a></li>
+                                        <li><a href="#tab-primary-2" data-toggle="tab">Chart 2</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="tab-content">
+
+                                    <div style="min-height:70px;" class="tab-pane fade" id="tab-primary-1">
+                                        
+                                        <div class="row">
+                                        <img src="applied_data_science/Chart1.png" align = "middle">
+                                        </div>
+
+                                        <div class="row">
+                                        <h5 style="margin-left: 10px; margin-right: 70px;" > Visualization for extreme temperatures during the year 2015 
+                                             compared to range of deviation between temperatures during the 
+                                             period 2005-2014 in Uusimaa, Finland. The data was automatically collected 
+                                             from 21 weather stations by the teaching platform of University of Michigan. 
+                                        </h5>
+                                        </div>
+                                    </div>    
+                                    
+ 
+                                    
+                                    <div style="min-height:70px;" class="tab-pane fade" id="tab-primary-2">
+                                     More coming soon...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+        </div>            					
+    	</div>
 
 </div>
 
