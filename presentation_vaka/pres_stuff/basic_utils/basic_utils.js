@@ -56,12 +56,13 @@ class Image{
 		
 		imgs.enter()
 			.append("svg:image")
+			//.append("svg:img")			
 			//.attr("xlink:href", this.path)
 			.attr("href", this.path)			
 			.attr("x", this.pos[0])
 			.attr("y", this.pos[1])
 			.attr("width", +this.relsize[0]+"%")
-			.attr("width", +this.relsize[1]+"%");			
+			.attr("height", +this.relsize[1]+"%");			
 
 			this.g = g;
 
