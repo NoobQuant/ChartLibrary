@@ -55,8 +55,7 @@ class Image{
 		var imgs = g.selectAll("image").data([0]);
 		
 		imgs.enter()
-			.append("svg:image")
-			//.append("svg:img")			
+			.append("svg:image")		
 			//.attr("xlink:href", this.path)
 			.attr("href", this.path)			
 			.attr("x", this.pos[0])
