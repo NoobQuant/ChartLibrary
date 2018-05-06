@@ -51,7 +51,7 @@ var y = d3.scale.linear().range([heightChart, 0]);
 
 // Define x axis
 var xAxis = d3.svg.axis().scale(x)
-    .orient("bottom").ticks(10);
+    .orient("bottom").ticks(20);
 
 // Define y axis
 var yAxis = d3.svg.axis().scale(y)
