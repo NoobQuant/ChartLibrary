@@ -1,0 +1,132 @@
+<!-- Source: https://bl.ocks.org/mbostock/3231298 -->
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<body>
+
+<!-- Basic utilities of AnimationLib-->
+<script type="text/javascript" src="../../pres_stuff/basic_utils/basic_utils.js"></script> 
+
+<!-- d3-->
+<script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
+
+<script>
+
+var width = 960,
+    height = 700;
+
+var svg = d3.select("body").append("div").append("svg")
+    // Scalable svg 
+    .attr('viewBox','0 0 ' + width + ' ' + height)
+    .attr('preserveAspectRatio','xMidYMid meet')
+    .style("width", '98%')
+    .style("height", '98%')
+    .style("display", "block")
+    .style("position", "absolute");
+
+var _transitions = [],
+    _inverse_transitions = [];
+
+var arrowparams1 = 
+{
+    id: "arrow1"
+    ,startPoint: [420, 420]
+    ,endPoint:   [520, 420]
+    ,color: '#f95c1d'
+    ,strokeWidth: 5    
+}
+
+
+imgparams1 = 
+  {
+    path: "pics/python.svg"
+    ,id: "pic_python"
+    ,pos: [100, 400]
+    ,correctors: [300, 1200]
+    //,correctors: [0, 0]    
+    ,relsize: [3,3]
+  }
+
+
+imgparams2 = 
+  {
+    path: "pics/sql_server.svg"
+    ,id: "pic_sql"
+    ,pos: [180, 210]
+    ,correctors: [550, 600]
+    //,correctors: [0, 0]    
+    ,relsize: [3,3]
+  }
+
+imgparams3 = 
+  {
+    path: "pics/r.svg"
+    ,id: "pic_r"
+    ,pos: [200, 240]
+    ,correctors: [550, 600]
+    //,correctors: [0, 0]    
+    ,relsize: [3,3]
+  }
+
+
+
+
+var tfParams = {
+     pos: [[600,390]]
+    ,id: "tf1"
+    ,textAreaWidth: 500
+    ,textAreaHeight: 300
+	//,textRelXPos: 0
+	,text: "Älykkäät dataprosessit"
+	//,scaleEase: "d3.easeBounce"
+	,fontSize: 40
+	,fontFamily: "Arial"
+	,rectStroke: "none"
+	,textColor: "rgba(228, 239, 233, 1.00)"
+};
+
+// Images
+_transitions.push(
+  () => {
+            img1 = new Image(imgparams1); 
+            img2 = new Image(imgparams2); 
+            img3 = new Image(imgparams3);             
+
+            img1.Draw(delay = 0, duration = 500);
+            img2.Draw(delay = 0, duration = 500);        
+            img3.Draw(delay = 0, duration = 500);                    
+        }
+);
+_inverse_transitions.push(
+  () => {
+            img1.Hide(0, 0)
+            img2.Hide(0, 0)            
+            img3.Hide(0, 0)            
+        }
+);
+
+
+// Arrow
+_transitions.push(
+  () => {
+            arrow1 = new Arrow(arrowparams1);
+            tf =  new TextField(tfParams);            
+            
+            arrow1.Draw(0, 500)
+            tf.Draw(500, 1000);
+
+        }
+);
+_inverse_transitions.push(
+  () => {
+            arrow1.Hide(0, 0)
+            tf.Hide(0, 0)            
+        }
+);
+
+
+
+</script>
+
+</body>
