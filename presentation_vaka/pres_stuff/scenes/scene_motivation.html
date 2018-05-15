@@ -39,17 +39,28 @@
 <script>
 
 ///*
-var width = 1920,
+
+var width = 1910,
     height = 1080;
 
-svg = d3.select("body").append("div").append("svg")
+///*
+  svg = d3.select("body").append("svg")
     .attr('viewBox','0 0 ' + width + ' ' + height)
     .attr('preserveAspectRatio','xMidYMid meet')
     .style("width", '98%')
     .style("height", '98%')
     .style("display", "block")
     .style("position", "absolute");
+//*/
 
+/*
+  svg = d3.select("body")
+		.append("svg")
+		//.attr('x', 50)
+		//.attr('y', 50)		
+	    .attr("width", width)
+	    .attr("height", height);      
+*/
 
 var _transitions = [],
     _inverse_transitions = [];
@@ -116,21 +127,22 @@ imgparams1 =
   {
     path: "pics/eba.jpg"
     ,id: "pic_eba"
-    ,pos: [180, 480]
+    ,pos: [10, 520]
     ,correctors: [550, 1400]
-    ,relsize: [4,4]
+    ,relsize: [40,40]
   }
   img1 = new Image(imgparams1)
 
 imgparams2 = 
   {
     path: "pics/excel.png"
-    ,id: "pic_eba"
+    ,id: "pic_excel"
     ,pos: [1250, 600]
     ,correctors: [3700, 1800]
-    ,relsize: [7,7]
+    ,relsize: [35,35]
   }
   img2 = new Image(imgparams2)
+
 
 
 _transitions.push(
@@ -139,7 +151,7 @@ _transitions.push(
           mathvals.Draw(0, duration = 1000,  type = 'movein')
 
           plot.DrawAxes(500, duration = 500);
-          plot.DrawLine(linRegLineData, id = "linearline", delay = 900, strokewidth = 3);   
+          plot.DrawLine(linRegLineData, id = "linearline", delay = 900, duration = 500, strokewidth = 3);   
 
           img1.Draw(delay = 500, duration = 500);   
           img2.Draw(delay = 500, duration = 500);                           
@@ -155,7 +167,9 @@ _inverse_transitions.push(
         }
 );
 
+
 addMathJax();
+
 
 </script>
 

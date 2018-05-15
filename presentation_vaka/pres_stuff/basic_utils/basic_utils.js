@@ -17,7 +17,9 @@ function SimpleCanvas(canvasWidth, canvasHeight, box = false, bgcolor = "#272822
 	    #FFFFFF white
 	*/
     var svg = d3.select("body")
-	    .append("svg")
+		.append("svg")
+		//.attr('x', 50)
+		//.attr('y', 50)		
 	    .attr("width", canvasWidth)
 	    .attr("height", canvasHeight);  
 
@@ -44,7 +46,7 @@ class Image{
 		this.correctors   = params.correctors;		
 		this.path         = params.path;
 		this.id           = params.id;
-		this.relsize      = params.relsize;		
+		this.relsize      = params.relsize;	        
 		
 
 		var g = svg.append('g')
@@ -56,11 +58,12 @@ class Image{
 		
 		imgs.enter()
 			.append("svg:image")
-			.attr("xlink:href", this.path)
+			//.attr("xlink:href", this.path)
+			.attr("href", this.path)            
 			.attr("x", this.pos[0])
 			.attr("y", this.pos[1])
 			.attr("width", +this.relsize[0]+"%")
-			.attr("width", +this.relsize[1]+"%");			
+			.attr("height", +this.relsize[1]+"%");
 
 			this.g = g;
 
@@ -75,9 +78,9 @@ class Image{
 			.delay(delay)
 			.duration(duration)  
 			.style('opacity', 1.0)
-			.attr("transform", "  scale(" + 3 +")")	
-			.attr("transform", " translate(" + (0 - this.correctors[0]) +","+ (0 - this.correctors[1]) +") scale(" + 4 + ")")		  		  		      
-			.ease(d3.easeLinear);
+			//.attr("transform", "  scale(" + 1 +")")	
+			//.attr("transform", " translate(" + (0 - this.correctors[0]) +","+ (0 - this.correctors[1]) +") scale(" + 1 + ")")		  		  		      
+			//.ease(d3.easeLinear);
 		
 
 
@@ -674,53 +677,75 @@ class SimplePlot{
 
 	constructor(pos, xrange, yrange, xdomain, ydomain, id, params){
 
-		this.xPoint = pos[0];
-		this.yPoint = pos[1];
-		this.xRange = xrange;
-		this.yRange = yrange;
-		this.xDomain = xdomain;
-		this.yDomain = ydomain;	
-		this.id = id;
-	    this.tickSizecc = params.tickSizecc || 10;
-	    this.tickNo = params.tickNo || 5;
-	    this.tickLabelSize = params.tickLabelSize || 20;
+		this.xPoint             = pos[0];
+		this.yPoint             = pos[1];
+		this.xRange 		    = xrange;
+		this.yRange 			= yrange;
+		this.xDomain 			= xdomain;
+		this.yDomain 			= ydomain;	
+		this.id 				= id;
+	    this.tickSizecc 		= params.tickSizecc || 10;
+	    this.tickNo 			= params.tickNo || 5;
+	    this.tickLabelSize 		= params.tickLabelSize || 20;
 	    this.xlabelRelativeSize = params.xlabelRelativeSize || 100;
-	    this.xlabel = params.xlabel || "";
+		this.xlabel 			= params.xlabel
+		this.xlabelColor 		= params.xlabelColor || "#FFFFFF"; 
+	    this.ylabelRelativeSize = params.ylabelRelativeSize || 100;
+		this.ylabel 			= params.ylabel
+		this.ylabelColor 		= params.ylabelColor || "#FFFFFF"; 		
+		this.tickColor 		    = params.tickColor || "#FFFFFF"; 
+		this.tickStroke 		= params.tickStroke || "none"; 		
+		this.ylabelCorrector    = params.ylabelCorrector || [100,0]
+		this.xlabelCorrector    = params.xlabelCorrector || [0,70]			
+		
 	};
 
 
-	DrawAxes(delay = 0, duration = 500){
-
+	DrawAxes(delay = 0, duration = 500, type = 'normal'){
 		/* 
 		CSS for axis colors
 		
 		.axisColored line{
 		  stroke: #EFC090;
 		}
-
 		.axisColored path{
 		  stroke: #EFC090;
 		}
 
-		.axisColored text{
-		  fill: #EFC090;
-		}  
 		*/
-
-		// Set the ranges
-		var yRangeInv = [this.yRange[1], this.yRange[0]]
-		var xScale = d3.scaleLinear().range(this.xRange).domain(this.xDomain);
-		var yScale = d3.scaleLinear().range(yRangeInv).domain(this.yDomain);
 
 		// Plot axes
 	    var plot = svg.append("g")
 				    .attr("id", this.id)
 				    .attr("transform", "translate(" + this.xPoint + "," + this.yPoint + ")")
 				    .style("opacity", 0.0);
-					
-		var xAxis = d3.axisBottom().scale(xScale);
-		var yAxis = d3.axisLeft().scale(yScale);
 
+		// Set the ranges
+		if (type == 'normal'){
+			var yRangeInv = [this.yRange[1], this.yRange[0]]
+			var xScale = d3.scaleLinear().range(this.xRange).domain(this.xDomain);
+			var yScale = d3.scaleLinear().range(yRangeInv).domain(this.yDomain);
+
+			var xAxis = d3.axisBottom().scale(xScale);
+			var yAxis = d3.axisLeft().scale(yScale);
+		} else if (type == 'bar'){
+
+
+			var yRangeInv = [this.yRange[1], this.yRange[0]]
+
+			var xScale = d3.scaleBand().range(this.xRange);
+			//xScale.domain(mydata.map(function(d) { return d.salesperson; }));
+			xScale.domain(this.xDomain);
+
+			var yRangeInv = [this.yRange[1], this.yRange[0]]			
+			var yScale = d3.scaleLinear().range(yRangeInv).domain(this.yDomain);			
+			//var yScale = d3.scaleLinear().range(this.yRange).domain(this.yDomain);			
+
+			plot.append('g').attr('id', 'mygroup');
+
+		}
+
+		// x-axis
 		plot.append("g")
 		  .attr("class", "axisColored")		
 		  .attr("transform", "translate("+ this.yRange[0] + "," + this.yRange[1] + ")")
@@ -728,39 +753,61 @@ class SimplePlot{
 			  	  .tickSize(this.tickSizecc)			  	
 				  .ticks(this.tickNo[0]))
 				  .selectAll("text")
-				  .style("font-size", this.tickLabelSize);
+				  .style("font-size", this.tickLabelSize)
+				  .style("fill",this.tickColor)
+				  .style("stroke",this.tickStroke);
 
 		plot.append("g")
 		  .style("text-anchor", "middle")
 		  .attr("transform",
-		        "translate(" + (this.xRange[1]/2) + " ," + (this.yRange[1] + 70 ) + ")")
+		        "translate(" + (this.xRange[1]/2 + this.xlabelCorrector[0]) + " ," + (this.yRange[1] + this.xlabelCorrector[1] ) + ")")
     	  .append("g")
     	  	  .attr("class", "mathjax")
 			  .style("font-size", this.xlabelRelativeSize + "%") 
-			  .style("color", "#BED6FF")  	  	  
+			  .style("color", this.xlabelColor)  	  	  
 	    	  .append("text")  	
 	    	  .text(this.xlabel);
 
-
+		// y-axis
 		plot.append("g")
 		  .attr("class", "axisColored")
 		  .call(d3.axisLeft(yScale)
-			  	  .tickSize(this.tickSizecc)		  	
-				  .ticks(this.tickNo[1]))
-				  .selectAll("text")
-				  .style("font-size", this.tickLabelSize);
+					.tickSize(this.tickSizecc)
+					.ticks(this.tickNo[1]))
+					.selectAll("text")
+					.style("font-size", this.tickLabelSize)
+					.style("fill",this.tickColor)
+					.style("stroke",this.tickStroke);							  	
+
+		plot.append("g")
+			.style("text-anchor", "middle")
+			.attr("transform",
+					"translate(" + (this.xRange[0] - this.ylabelCorrector[0]) + " ," + (this.yRange[1] / 2 + this.ylabelCorrector[1]) + ") rotate(-90)")
+			.append("g")
+				.attr("class", "mathjax")
+				.style("font-size", this.ylabelRelativeSize + "%") 
+				.style("color", this.ylabelColor)  	  	  
+				.append("text")  	
+				.text(this.ylabel);
+
+
+
+
 
 		plot.transition()
 			.duration(duration)
 			.delay(delay)
 			.style("opacity", 1.0);
 
-	this.plot = plot;
-	this.xScale = xScale;
-	this.yScale = yScale;	
+		this.plot = plot;
+		this.xScale = xScale;
+		this.yScale = yScale;
+		this.yRangeInv = yRangeInv;
 	};
 
 	DrawScatter(data, id, delay= 0, r = 5, color = '#ffcc00'){
+
+		this.scatterid = id;
 
 		var dots = this.plot.append("g")
 			.attr("id", id)
@@ -782,7 +829,17 @@ class SimplePlot{
 
 	};
 
-	DrawLine(data, id, delay, strokewidth = 1){
+	HideScatter(delay, duration){
+
+		d3.select("#"+this.scatterid)
+			.transition()
+			.delay(delay)
+			.duration(duration)
+			.style("opacity", "0")			
+
+	};	
+
+	DrawLine(data, id, delay, duration = 700, strokewidth = 1){
 
 		var xScale = this.xScale;
 		var yScale = this.yScale;	
@@ -802,16 +859,187 @@ class SimplePlot{
 		linepath
 		      .attr("stroke-dasharray", totalLength + " " + totalLength)
 		      .attr("stroke-dashoffset", totalLength)
-		      .attr("stroke", "steelblue")
+			  .attr("stroke", "steelblue")
+			  .attr('fill','none')
 		      .attr("stroke-width", strokewidth)
 		      .transition()
 		      .delay(delay)
-	          .duration(700)
+	          .duration(duration)
 	          .ease(d3.easeLinear)
 	          .attr("stroke-dashoffset", 0);
 
-	    this.lineFunction = lineFunction;
+		this.lineFunction = lineFunction;
+		this.linepath = linepath;
 	
+	};
+
+	InitShapeAlongLine(params){
+
+		this.shapeid = params.id;
+		var r = params.r || 10;
+		var cx = params.cx || 0;		
+		var cy = params.cy || 0;		
+		var fillColor = params.fillColor || 'red';
+		var strokeColor = params.stroke || 'white';				
+		var strokeWidth = params.strokeWidth || 3;
+		this.moveAlongEase = params.moveAlongEase || d3.easeCubic;
+    
+		var shape = this.plot.append("circle")
+							  .attr('id', this.shapeid)
+							  .attr("cx", cx)
+							  .attr("cy", cy)									
+							  .attr("r", r)
+							  .attr('fill',fillColor)
+							  .attr('opacity', 0)
+							  .style("stroke", strokeColor)
+							  .style("stroke-width", strokeWidth);
+		this.shape = shape;							
+	
+	};
+
+	MoveShape(delay, duration, interval, moveAlongEase = d3.easeCubic){
+		// Inspired by https://bl.ocks.org/beemyfriend/a726752f461c22a4792a5aa4c10287be
+
+		var path = this.linepath;
+		var yScale = this.yScale;
+		var xScale = this.xScale;
+		//var moveAlongEase = this.moveAlongEase
+		
+		this.shape	
+			 .transition()
+			 .duration(0)
+			 .delay(delay)
+			 .style("opacity",1);
+
+		transition(this.shape);
+		
+		function transition(shape) {
+			shape
+			  .transition()
+			  .delay(delay)
+			  .duration(duration)
+			  .ease(moveAlongEase)      
+			  .attrTween("transform", translateAlong(path.node(), interval[0], interval[1])  )			  
+		}
+		
+		// tweening function on specific direction
+		function translateAlong(path, startt, endt) {
+
+
+			var l1 = endt   * path.getTotalLength();
+			var l2 = startt * path.getTotalLength();			
+			var l = l1-l2;
+
+			if (Math.sign(l) == -1 || Math.sign(l) == -0){
+				var direction = 'backward';
+				l = Math.abs(l);
+			} else {
+				var direction = 'forward';
+			};
+	
+			  return function(d, i, a) {
+				
+				return function(t) {
+
+					if(direction == 'backward'){
+						var p = path.getPointAtLength(l2 - (t * l) )
+					} else if (direction == 'forward') {
+						var p = path.getPointAtLength(l2 + t * l);
+					}
+
+				  console.log(yScale.invert(p.y))
+				  return "translate(" + p.x + "," + p.y + ")";
+	
+				};
+			  };
+			}
+
+
+
+
+
+
+
+	};
+
+	DrawBars(mydata, params, delay, duration = 300){
+
+		// https://codepen.io/netkuy/pen/KzPaBe
+
+		this.barColor = params.barColor || 'steelblue';
+
+
+
+
+
+		const WIDTH = this.xRange[1] - this.xRange[0];
+		const HEIGHT = this.yRange[1] - this.yRange[0]
+		const BAR_WIDTH = 100;
+		const BAR_GAP = 150;
+		const pad = 75;
+
+		var scale = this.yScale;
+
+			
+		function y(d) {
+			//return HEIGHT - scale(d.value);
+			return scale(d.value);			
+		}
+		
+		function height(d) {
+			return HEIGHT - scale(d.value);
+		}
+
+
+
+		const t = d3.transition()
+		.duration(750);
+	 
+  
+
+		var vis = this.plot.select("#mygroup")
+
+		var bar = vis.selectAll('g').data(mydata, d => d.id)				  
+  
+  
+		// EXIT section
+		bar
+		.exit()
+			.remove();
+		
+		// UPDATE section
+		bar.transition(t).attr("transform", (d, i) => `translate( ${pad + i * (BAR_WIDTH + BAR_GAP)} , ${y(d)} )`);
+
+
+
+
+
+		
+		bar.select("rect")
+		.transition(t)
+			.attr("height", height);
+	
+	
+		// ENTER section
+		const barEnter = bar
+				.enter().append("g")
+				.attr("transform", (d, i) => `translate(${pad + i * (BAR_WIDTH + BAR_GAP)},${HEIGHT})`);
+	
+		barEnter
+		.transition(t)
+			.attr("transform", (d, i) => `translate(${pad + i * (BAR_WIDTH + BAR_GAP)}, ${y(d)})`);
+		
+		const rect = barEnter.append("rect")
+			.attr("x", 0)
+			.attr("y", 0)
+			.style('fill', 'steelblue')
+			.attr("width", BAR_WIDTH)
+			.attr("height", 0);
+		
+		rect
+		.transition(t)
+			.attr("height", height);
+
 	};
 
 	TweenLine(line1ID,line1Data,line2Data, delay){
@@ -855,7 +1083,7 @@ class SimplePlot{
 		  };
 		};
 	};
-
+    
 	Hide(delay, duration){
 
 		this.plot
@@ -864,8 +1092,7 @@ class SimplePlot{
 			.delay(delay)
 		    .style("opacity",0);		
 	};	
-
-
+    
 };
 
 
@@ -1054,6 +1281,16 @@ class ThoughtBubble {
 
 	};
 
+	Hide(delay, duration){
+
+		d3.select('#'+ this.id)
+			.transition()
+			.duration(duration)
+			.delay(delay)
+		    .style("opacity",0);
+
+	};
+
 	Text(delay, duration){
 
 		///*
@@ -1122,7 +1359,7 @@ class TextField {
         this.textColor       = params.textColor || "black";        
         this.textAlign       = params.textAlign || "left"
         this.pads            = params.pads || [0,0,0,0]
-        this.rectStroke      = params.rectStroke || "black";
+        this.rectStroke      = params.rectStroke || "none";
 
 
 		var group = svg.append('g')
@@ -1202,14 +1439,14 @@ class ForceSwarm {
 		    .force('y', d3.forceY()
 		                  .y(function(d) {return d.yCenter;})
 		                  .strength(0.08)
-			)			
+		    )
 		    .stop();
 
 		var node = svg.append("g")
 		            .attr("stroke", "#fff")
 		            .style('fill', '"#666da3"')
 		            .attr("stroke-width", 0.3)
-					.selectAll(".node");
+		            .selectAll(".node");
 
 
 		this.simulation = simulation;
@@ -1238,34 +1475,8 @@ class ForceSwarm {
 	             .attr("r", function(d){return d.radius; })
 	             .merge(this.node);
 
-	this.node = this.node.call(d3.drag()
-							.on("start", dragstarted)
-							.on("drag", dragged)
-							.on("end", dragended));
-
-
-	function dragstarted(d) {
-		//if (!d3.event.active) simulation.alpha(0.3).restart();
-		d.fx = d.x;
-		d.fy = d.y;
-	}
-	
-	function dragged(d) {
-		d.fx = d3.event.x;
-		d.fy = d3.event.y;
-	}
-	
-	function dragended(d) {
-		//if (!d3.event.active) simulation.alpha(1);
-		d.fx = null;
-		d.fy = null;
-	}
-
-
-
 	  this.simulation.nodes(nodes);
 	  this.simulation.alpha(1).restart();            
-	  //this.simulation.restart();            	  
 
 	};	
 

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<!-- Basic utilities of AnimationLib-->
+<script type="text/javascript" src="../../pres_stuff/basic_utils/basic_utils.js"></script> 
+
+<!-- d3-->
+<script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
+
+<link href='http://fonts.googleapis.com/css?family=Hi+Melody' rel='stylesheet' type='text/css'>
+  
+
+</head>
+
+
+<style>
+
+.stop-right {
+    stop-color: rgba(59,103,158,1);     
+}
+.stop-middle2 {
+    stop-color: rgba(43,136,217,1);     
+}
+.stop-middle1 {
+    stop-color: rgba(32,124,202,1);     
+}
+.stop-left {
+    stop-color: rgba(125,185,232,1);
+}
+
+.filled {
+    fill: url(#mainGradient);
+}
+
+.outlined {
+    fill:   none;
+    stroke: url(#mainGradient);
+    stroke-width: 4;
+}
+
+
+.postit {
+    font-family: 'Hi Melody';
+    font-weight : bold;
+    stroke-width:1px;
+    fill-opacity: 1;
+}
+
+br {
+    line-height: 180%;
+    }
+
+</style>
+
+<body>
+
+
+<script>
+
+
+var width = 1920,
+    height = 1080;
+
+var rectinitopa = 0.0;
+
+svg = d3.select("body").append("div").append("svg")
+    // Scalable svg 
+    .attr('viewBox','0 0 ' + width + ' ' + height)
+    .attr('preserveAspectRatio','xMidYMid meet')
+    .style("width", '98%')
+    .style("height", '98%')
+    .style("display", "block")
+    .style("position", "absolute");
+
+
+
+// Create the svg:defs element and the main gradient definition.
+var svgDefs = svg.append('defs');
+
+var mainGradient = svgDefs.append('linearGradient')
+              .attr('id', 'mainGradient');
+
+mainGradient.append('stop')
+    .attr('class', 'stop-left')
+    .attr('offset', '0');
+
+mainGradient.append('stop')
+    .attr('class', 'stop-middle1')
+    .attr('offset', '0.5');
+
+mainGradient.append('stop')
+    .attr('class', 'stop-middle1')
+    .attr('offset', '0.51');    
+
+mainGradient.append('stop')
+    .attr('class', 'stop-right')
+    .attr('offset', '1');
+
+
+
+//https://stackoverflow.com/questions/33878292/d3-set-filter-flood-color-based-on-data
+var filter = svgDefs.append("filter")
+    .attr("id", "drop-shadow")
+    .attr("height", "130%");
+
+filter.append("feGaussianBlur")
+    .attr("in", "SourceAlpha")
+    .attr("stdDeviation", 5)    
+    .attr("result", "blur");
+
+filter.append("feOffset")
+    .attr("in", "blur")  
+    .attr("dx", 10)
+    .attr("dy", 10)
+    .attr("result", "offsetBlur");
+
+filter.append("feFlood")
+.attr("in", "offsetBlur")
+//.attr("flood-color",'#990000')
+.attr("flood-color",'000000')
+.attr("flood-opacity", "1")
+.attr("result", "offsetColor");
+
+filter.append("feComposite")
+.attr("in", "offsetColor")
+.attr("in2", "offsetBlur")
+.attr("operator", "in")
+.attr("result", "offsetBlur");
+
+var feMerge = filter.append("feMerge");
+
+feMerge.append("feMergeNode")
+    .attr("in", "offsetBlur")
+feMerge.append("feMergeNode")
+    .attr("in", "SourceGraphic");
+
+
+
+
+var circledata = [
+  {xpos: 680, ypos: 350, radius: 70, zoomedscale: 1.3, text: "Extract", opacity: 0, "id": "type2", reffield: "field1", rectpos: [[0,200],[200,200]]},
+  {xpos: 680, ypos: 675, radius: 70, zoomedscale: 1.3, text: "Clean", opacity: 0, "id": "type2", reffield: "field2", rectpos: [[0,700],[200,700]]},
+  {xpos: 1200, ypos: 750, radius: 70, zoomedscale: 1.3, text: "Analyse", opacity: 1, "id": "type1", reffield: "field3", rectpos:   [[1650,700],[1650- 250,700]]},
+  {xpos: 1250, ypos: 500, radius: 70, zoomedscale: 1.3, text: "Deliver", opacity: 0, "id": "type2", reffield: "field4", rectpos:   [[1650,450],[1650- 250,450]]},
+  {xpos: 1200, ypos: 270, radius: 70, zoomedscale: 1.3, text: "Present", opacity: 0, "id": "type2", reffield: "field5", rectpos: [[1650,200],[1650- 250,200]]}      
+];
+
+var linedata = [
+  {x1: 680 + 70, y1: 350 + 70, x2: 680 + 70 + 45, y2: 350 + 70 + 45, opacity: 0, "id": "type2"},
+  {x1: 680 + 70, y1: 675 - 70, x2: 680 + 70 + 45, y2: 675 - 70 - 45, opacity: 0, "id": "type2"},
+  {x1: 1200 - 80, y1: 750 -60, x2: 1200 - 80 - 65, y2: 750 - 60 - 60, opacity: 1, "id": "type1"},
+  {x1: 1250 - 100, y1: 500, x2: 1250 - 100 - 80, y2: 500, opacity: 0, "id": "type2"},
+  {x1: 1200 - 70, y1: 270 + 70, x2: 1200 - 70 - 60, y2: 270 + 70 + 60, opacity: 0, "id": "type2"}
+];
+
+circledata.forEach(function(d,i){
+    var circleHolder = svg.append('g')
+                    .attr("transform", "translate("+d.xpos+","+d.ypos+")")
+                    .attr('opacity', d.opacity)
+                    .attr('reffield', d.reffield)
+                    .attr("id",d.id)
+                    .on('mouseover',function() {
+                        d3.select(this)
+                        .transition()
+                        .duration(200)
+                        .attr("transform", " translate(" + d.xpos +","+ d.ypos +") scale(" + d.zoomedscale+ ")");
+
+                    }) 
+                    .on('click',function() {                                    
+
+                        if (d3.select("#"+d.reffield)._groups[0][0].style.opacity == '1'){
+                            d3.select("#"+d.reffield)
+                            .transition()
+                            .duration(200)
+                            .style("opacity", 0)
+                            .attr("transform", " translate(" + d.rectpos[0][0] +","+ d.rectpos[0][1] +")");
+
+                        } else {
+                            d3.select("#"+d.reffield)
+                            .transition()
+                            .duration(200)
+                            .style("opacity", 1)
+                            .attr("transform", " translate(" + d.rectpos[1][0] +","+ d.rectpos[1][1] +")");
+                        }
+                    })                     
+                    .on('mouseout',function () {
+                        d3.select(this)
+                        .transition()
+                        .duration(500)
+                        .attr("transform", " translate(" + d.xpos +","+ d.ypos +") scale(" + 1+ ")");
+                    });                               
+
+    var circle = circleHolder.append("circle")
+                    .attr('class', 'circle')
+                    .attr("id", "circle1")
+                    .attr("r", d.radius)
+                    //.style("filter", "url(#glow)")
+                    .classed("filled",true)
+                    
+    circleHolder.append("text")
+            .attr("dy", 5)
+            .attr('text-anchor', 'middle')
+            .attr('stroke','none')
+            .attr('fill','white')
+            .attr('font-size', 25)         
+            .text(d.text)  
+});
+
+
+linedata.forEach(function(d,i){
+ 
+    svg.append('line')
+            .attr("id",d.id)    
+            .attr('x1', d.x1)
+            .attr('y1', d.y1)
+            .attr('x2', d.x2)
+            .attr('y2', d.y2)
+            .attr('opacity', d.opacity)
+            .attr('stroke', "rgba(32,124,202,1)")
+            .style('stroke-width', 2);
+
+});
+
+
+var databasestring = "M256,11C142.9,11,57.6,49.5,57.6,100.6v310.8c0,51.1,85.3,89.7,198.4,89.7c113.1,0,198.4-38.5,198.4-89.7V100.6  C454.4,49.5,369.1,11,256,11z M429.9,307.8c0,30.8-71.4,65.2-173.9,65.2c-102.5,0-173.9-34.3-173.9-65.2v-59.1  c33.2,27.4,97.1,45.2,173.9,45.2c76.8,0,140.8-17.8,173.9-45.2V307.8z M429.9,204.2c0,30.8-71.4,65.2-173.9,65.2  c-102.5,0-173.9-34.3-173.9-65.2v-59.1c33.2,27.4,97.1,45.2,173.9,45.2c76.8,0,140.8-17.8,173.9-45.2V204.2z M256,35.5  c102.5,0,173.9,34.3,173.9,65.2s-71.4,65.2-173.9,65.2c-102.5,0-173.9-34.3-173.9-65.2S153.5,35.5,256,35.5z M256,476.5  c-102.5,0-173.9-34.3-173.9-65.2v-59.1c33.2,27.4,97.1,45.2,173.9,45.2c76.8,0,140.8-17.8,173.9-45.2v59.1  C429.9,442.2,358.5,476.5,256,476.5z"
+svg.append("g")
+        .attr("transform", " translate(" + 800 +","+ 400 +") scale(" + 0.5+ ")")	
+        .append("path")
+        .attr("fill",'black')
+        .style("stroke", "none")            
+        .attr("d", databasestring)
+                   
+
+        .on('mouseover',function() {
+            d3.select(this)
+                .attr("fill",'red');
+
+            }) 
+            .on('click',function() {                                    
+
+                if (d3.select("#field6")._groups[0][0].style.opacity == '1'){
+                    d3.select("#field6")
+                    .transition()
+                    .duration(200)
+                    .style("opacity", 0)
+                    .attr("transform", " translate(" + 720 +","+ 900 +")");
+
+                } else {
+                    d3.select("#field6")
+                    .transition()
+                    .duration(200)
+                    .style("opacity", 1)
+                    .attr("transform", " translate(" + 720 +","+ 780 +")");
+                }
+            })                     
+            .on('mouseout',function () {
+                d3.select(this)
+                .attr("fill",'black');
+            });    
+
+
+
+
+
+
+var text1 = "Extracingt data from unconventional sources.<br>"
+            + "My example: <a href='https://noobquant.github.io/ChartLibrary/news_word_cloud.html'>News paper scraper</a>."
+
+var text2 = "Cleaning, wrangling, feature engineering.<br>"
+            + "My example: <a href='https://github.com/NoobQuant/CheatSheets/blob/master/Pandas.ipynb'>Python pandas cheat sheet</a>."
+
+var text3 = "Analysing economic phenomena.<br>"
+            + "My examples: Financial cycle paper, bank business models, <a href='https://github.com/NoobQuant/Data_Science_Projects/blob/master/logistic_regression/Logistic%20regression%20visualized.ipynb'>introduction to predictive modelling</a>."
+
+var text4 = "Delivering results to users.<br>"
+            + "My examples: <a href='http://noobquant.site/'>NoobQuant site</a>, financial cycle tool interface."
+
+var text5 = "Visualising analysis results.<br>"
+            + "Let's look at few examples!"
+
+var text6 = "Storing and maintaining data.<br>"
+            + "My examples: Modelling database and stress test engine at OP."
+
+var rectdata = [
+  {xpos: 0, ypos: 200, width: 350, height: 210,    fontsize: 30, id: "field1", text: text1, "color" : '#398017'},
+  {xpos: 0, ypos: 700, width: 350, height: 210,    fontsize: 30, id: "field2", text: text2, "color" : '#f99007'},
+  {xpos: 1650, ypos: 700, width: 370, height: 250, fontsize: 30, id: "field3", text: text3, "color" : '#593b0c'},
+  {xpos: 1650, ypos: 450, width: 370, height: 200, fontsize: 30, id: "field4", text: text4, "color" : '#5a04ef'},
+  {xpos: 1650, ypos: 200, width: 370, height: 160, fontsize: 30, id: "field5", text: text5, "color" : '#02dae5'},  
+  {xpos: 730,  ypos: 900, width: 380, height: 190, fontsize: 30, id: "field6", text: text6, "color" : '#e22500'}
+];
+
+rectdata.forEach(function(d,i){
+ 
+    var group = svg.append('g')
+                    .attr('id',d.id)
+                    .attr("transform", " translate(" + d.xpos +","+ d.ypos +")")                
+                    .style('opacity',rectinitopa);
+
+    var rectangle = group.append('rect')
+                        //.attr('x',d.xpos)
+                        //.attr('y',d.ypos)
+                        .attr('x',0)
+                        .attr('y',0)                              
+                        .attr('width',d.width)
+                        .attr('height',d.height)
+                        .style("filter", "url(#drop-shadow)")
+                        .attr('fill',d.color)                    
+                        .attr("opacity",0.2)
+                        .attr('stroke','black')
+                        .attr('stroke-width', 3);
+
+    var fo = group.append('foreignObject')
+                    .attr('x',30) 
+					.attr('y',20)    
+                    .attr('width',d.width - 20)
+                    .attr('height',d.height - 10);				
+
+    var div = fo.append('xhtml:div')
+                    .style('color', '#000138')
+                    .attr("class","postit")                    	                                      
+                    .attr("align", "left")											
+                    .style("font-size", d.fontsize + "px")
+                    .append("text")
+                    .html(d.text);         
+
+});
+
+
+
+var tfParams = {
+     pos: [[100,1000]]
+    ,id: "tf1"
+    ,textAreaWidth: 900
+    ,textAreaHeight: 200
+	//,textRelXPos: 0
+	,text: "Inspired by Kyran Dale, <i>Data Visualization with Python and Javascript</i>."
+	//,scaleEase: "d3.easeBounce"
+	,fontSize: 26
+	,fontFamily: "Arial"
+	,rectStroke: "none"
+	,textColor: "black"
+};
+
+tf =  new TextField(tfParams);            
+
+
+var _transitions = [],
+    _inverse_transitions = [];
+
+_transitions.push(
+  () => {
+              
+        d3.selectAll("#type2")
+            .transition()
+            .duration(500)
+            .attr('opacity', 1);     
+
+        tf.Draw(0, 0);                       
+        }
+
+);
+_inverse_transitions.push(
+  () => {
+
+        d3.selectAll("#type2")
+            .transition()
+            .duration(500)
+            .attr('opacity', 0);
+
+        tf.Hide(0, 0);                        
+        }
+
+);
+
+</script> 
+
+</body>
+</html>
