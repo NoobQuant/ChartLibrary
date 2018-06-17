@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<!-- Basic utilities of AnimationLib-->
+<script type="text/javascript" src="../../pres_stuff/basic_utils/basic_utils.js"></script> 
+
+<!-- d3-->
+<script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
+
+<link href='http://fonts.googleapis.com/css?family=Hi+Melody' rel='stylesheet' type='text/css'>
+  
+
+</head>
+
+
+<style>
+
+</style>
+
+<body>
+
+
+<script>
+
+
+var width = 1920,
+    height = 1080;
+
+
+var timing = 0;
+
+svg = d3.select("body").append("div").append("svg")
+    // Scalable svg 
+    .attr('viewBox','0 0 ' + width + ' ' + height)
+    .attr('preserveAspectRatio','xMidYMid meet')
+    .style("width", '98%')
+    .style("height", '98%')
+    .style("display", "block")
+    .style("position", "absolute");
+
+
+params = 
+  {
+    path: "../../pres_stuff/scenes/pics/html.svg"
+    ,id: "fig_html"
+    ,pos: [200, 600]
+    ,correctors: [3400, 1900]
+    ,relsize: [30,30]
+  }
+var img1 = new Image(params)
+
+
+params2 = 
+  {
+    path: "../../pres_stuff/scenes/pics/css.svg"
+    ,id: "fig_css"
+    ,pos: [650, 600]
+    ,correctors: [0, 0]
+    ,relsize: [30,30]
+  }
+var img2 = new Image(params2)
+
+params3 = 
+  {
+    path: "../../pres_stuff/scenes/pics/js.svg"
+    ,id: "fig_js"
+    ,pos: [1150, 600]
+    ,correctors: [0, 0]
+    ,relsize: [30,30]
+  }
+var img3 = new Image(params3)
+
+params4 = 
+  {
+    path: "../../pres_stuff/scenes/pics/browsers.png"
+    ,id: "fig_browsers"
+    ,pos: [570, 150]
+    ,correctors: [0, 0]
+    ,relsize: [40,40]
+  }
+var img4 = new Image(params4)
+
+
+/*
+// Define outline of cloud
+var bubbleString0 = "M 500,550"
+            + "c 0,-100 300,-50 300,-65"  
+
+var bubbleString1 = "M 700,400"
+            + "c -20,-20 -70,-20 -95,13"          
+
+var bubbleString2 = "M 1450,550"
+            + "c 0,-100 -300,-50 -300,-65"          
+
+
+var strings = [bubbleString0
+                ,bubbleString1
+                ,bubbleString2
+            ]
+
+    // Draw outline
+    strings.forEach(function(d){
+            svg.append("g")
+                .append("path")
+                .style('stroke-width',6)                
+                .style('stroke','steelblue')
+                .attr("fill","none")        
+                .attr("d", d);
+    });
+*/
+
+
+
+var _transitions = [],
+    _inverse_transitions = [];
+
+_transitions.push(
+  () => {
+
+        img1.Draw(delay = 0, duration = 1000)
+        img2.Draw(delay = 500, duration = 1000)        
+        img3.Draw(delay = 1000, duration = 1500)    
+        img4.Draw(delay = 3000, duration = 1500)                        
+
+        }
+);
+_inverse_transitions.push(
+  () => {
+
+        img1.Hide(delay = 0, duration = 0)
+        img2.Hide(delay = 0, duration = 0)
+        img3.Hide(delay = 0, duration = 0)                
+        img4.Hide(delay = 0, duration = 0)      
+
+        }
+
+);
+
+</script> 
+
+</body>
+</html>
