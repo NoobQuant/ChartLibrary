@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Python and R with Jupyter Notebooks</title>
+
+		<meta name="author" content="Ville Voutilainen">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="revealjs/css/reveal.css">
+		<link rel="stylesheet" href="revealjs/css/theme/noobquant.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="revealjs/lib/css/zenburn.css">
+
+
+		<!--[if lt IE 9]>
+		<script src="revealjs/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+				
+				<section >					
+					<br>					
+					<br>
+					<h2>Python and R with<br>Jupyter Notebooks</h2>
+					<p>
+						Talk given at Bank of Finland, October 25th 2018.<br>
+						<a href="http://noobquant.site/">Ville Voutilainen</a>*
+					</p>
+					<br>
+					<p>
+						<small>
+						* Views expressed are those of the presenter.
+						</small>
+					</p>
+				</section>
+
+
+				<section id="intro">
+					<h3>In this presentation</h3>
+					<br>								
+					<ul>
+						<li class="fragment">What are <tspan id = 'redtspan'>Jupyter Notebooks</tspan> ?</li>						
+						<li class="fragment">Why <tspan id = 'purpletspan'>data analysis</tspan> in notebooks?</li>
+						<li class="fragment">Employ both <tspan id = 'greentspan'>Python</tspan> and <tspan id = 'bluetspan'>R</tspan> (together or separately) in notebooks.</li>
+					</ul>
+				</section>
+				
+				<section
+					class="fig-container"
+					data-fig-id="scene_kdd"
+					data-file="jupyter_notebooks/scene_kdd2.html"
+				>
+					<h3>Field of knowledge discovery</h3>
+				</section>		
+
+
+				<section>
+					<h3>How do notebooks help?</h3>
+					<div style="width: 100%; overflow: hidden;">
+						<div style="width: 600px; float: left;">
+							<ul>
+								<li class="fragment"><tspan id = 'orangetspan'>KDD</tspan>: Text, equations, code and graphs in one place.</li>								
+								<li class="fragment"><tspan id = 'purpletspan'>EDA</tspan>: Play around with data in contained code cells.</li>											
+								<li class="fragment"><tspan id = 'browntspan'>Info viz</tspan>: Produce interactive/static plots and render them in-place.</li>
+								<li class="fragment">Share work in brosers - universal access.</li>											
+							</ul>					
+						</div>
+						<div style="margin-left: 620px;">
+							<img src="jupyter_notebooks/pics/notebook_capture.png"  width="90%" height="90%">
+							<p style="font-size:60%;">Example of notebook.</p>			
+						</div>
+					</div>					
+				</section>
+
+
+
+				<section >
+					<h4>Notebooks, Python, and R as part of Anaconda installation</h4>
+					<ul>
+						<li class="fragment"><tspan id = 'orangetspan'>Anaconda</tspan> is a popular data science platform for Python and R.</li>
+						<li class="fragment">It comes pre-installed with over 1000 data packages, e.g. Jupyter notebooks, RStudio etc.</li>
+						<li class="fragment">Python and R are run within virtual <tspan id = 'purpletspan'>environments</tspan>.</li>
+						<li class="fragment">Packages and environments are managed with <tspan id = 'bluetspan'>conda</tspan>, Anaconda's packages manager.</li>												
+					</ul>
+				</section>
+
+				<section
+					class="fig-container"
+					data-fig-id="scene_environments"
+					data-file="jupyter_notebooks/scene_environments.html"
+					data-state="stats"
+				></section>
+						
+				
+				
+	
+
+				<section>
+					<section >
+						<h3>Example in Python</h3>
+						<br>
+						<br>
+						<br>												
+						<p>Let's walk through an easy example where we...</p>
+					</section>	
+
+					<section>
+						<h3>... import some data</h3>
+						<pre><code class="hljs" data-trim contenteditable>
+							def get_iris_data():
+							"""
+							This function imports iris dataset
+							from scikit learn dataset collection
+							and saves is at .csv.
+							"""
+							from sklearn import datasets
+							iris = datasets.load_iris()
+							df = pd.DataFrame(iris.data)
+							df = pd.concat([df, pd.DataFrame(iris.target)], axis = 1)
+							names = [x.replace(' (cm)', '') for x in iris.feature_names]
+							df.columns = names + ['type']
+							df.to_csv("iris_data.csv",index=False)
+						</code></pre>
+					</section>	
+
+					<section>
+						<h3>... apply simple dimensionality reduction</h3>
+						<br>
+						<br>
+						<pre><code class="hljs" data-trim contenteditable>
+								# Apply PCA to data to reduce feature dimesions from 4 to 3
+								from sklearn.decomposition import PCA
+								pca = PCA(n_components = 3)
+								X_pca = pd.DataFrame(pca.fit_transform(X))
+						</code></pre>
+					</section>		
+
+					<section>
+							<h3>... and plot the data</h3>
+							<br>
+							<pre><code class="hljs" data-trim contenteditable>
+									# Figure and axis
+									fig = plt.figure(figsize=(16, 6))
+									ax = fig.add_subplot(121, projection='3d')
+																		
+									# Draw scatter
+									ax.scatter(X_pca.iloc[:, 0], X_pca.iloc[:, 1], X_pca.iloc[:, 2], 
+											   c=y,edgecolor='k', s=40)
+									ax.set_title("First three PCA directions")
+							</code></pre>
+							<p>Link to notebook.</p>
+					</section>		
+
+				</section>
+
+				<section>
+						<section >
+							<h3>Example in R</h3>
+							<p>Let's walk through an easy example where we...</p>
+							<ul>
+								<li>Import some  data</li>
+								<li>Plot the data</li>
+								<li>Apply a simple dimensionality reduction algorithm</li>																																		
+							</ul>					
+						</section>	
+	
+						<section>
+							<h3>Import data</h3>
+							<pre><code class="hljs" data-trim contenteditable>
+								import pandas as pd
+							</code></pre>
+						</section>	
+	
+						<section>
+							<h3>Plot</h3>
+							<pre><code class="hljs" data-trim contenteditable>
+								import pandas as pd
+							</code></pre>
+						</section>		
+	
+					</section>				
+				
+				<section>
+					<section >
+						<br>
+						<br>						
+						<h3>Love data manipulation with Python pandas but need that nieche R library for estimation?</h3>
+					</section>	
+
+					<section>
+						<h3>Example</h3>
+						<pre><code class="hljs" data-trim contenteditable>
+							import pandas as pd
+						</code></pre>
+					</section>	
+
+					<section>
+						<h3>Example condt</h3>
+						<pre><code class="hljs" data-trim contenteditable>
+							import pandas as pd
+						</code></pre>
+					</section>		
+					<section >
+						<h3>By the way works also with others</h3>
+						<p>https://t.co/GUvWtK9z8S?amp=1</p>
+					</section>					
+				</section>	
+				
+				<section data-background="http://i.giphy.com/90F8aUepslB84.gif"></section>	
+				
+				<section >
+						<br>
+						<br>
+						<br>																
+						<h1>Thank you!</h1>
+						<p><a href="https://noobquant.site/">noobquant.site</a></p>						
+				</section>								
+
+			</div>
+
+		</div>
+
+		<script src="revealjs/lib/js/head.min.js"></script>
+		<script src="revealjs/js/reveal.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_SVG"></script>		
+		<script src="https://rawgit.com/noobquant/AnimationLib/master/basic_utils/NQ_colors_and_fonts.js"></script> 
+
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: false,
+
+				transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'revealjs/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'revealjs/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'revealjs/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'revealjs/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'revealjs/plugin/search/search.js', async: true },
+					{ src: 'revealjs/plugin/zoom-js/zoom.js', async: true },
+					{ src: 'https://d3js.org/d3.v4.min.js' },
+					{ src: 'revealjs/plugin/d3js/d3js.js' },					
+					{ src: 'revealjs/plugin/notes/notes.js', async: true }
+				]
+
+			});
+
+		//addMathJax();
+		</script>	
+
+	</body>
+</html>
