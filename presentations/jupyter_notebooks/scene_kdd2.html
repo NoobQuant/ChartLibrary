@@ -140,16 +140,19 @@
           return siblings;
       };
 
-        /*
-      var w = window.innerWidth - 20,
-          h = window.innerHeight,
-          middle = w/2;
-        */
 
         var topmargin = 20
         var bottommargin = 20
-        var width = window.innerWidth 
-        var height = window.innerHeight
+        
+        /* For some reason window.innerWidth and window.innerLength globals 
+        do not always transfer to .js scripts. Only in one of them that is closes
+        to the reveal js slide on which window is refhreshed. Have to use screen
+        instead*/        
+        //var width = window.innerWidth 
+        //var height = window.innerHeight
+        let width = screen.width
+        let height = screen.height - 30
+
         var width_force = width / 2        
         var height_force = height - topmargin - bottommargin
 

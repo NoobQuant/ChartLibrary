@@ -32,8 +32,6 @@
  <script>
 
 
-
-
   class Line{
 
   constructor(params){
@@ -126,15 +124,14 @@
  - add ease to moving Rectangle in anim lib
 ************************************************************/
 
-//function redrawChart(){
-
-
-
-
-let width = window.innerWidth
-let height = window.innerHeight - 30
-//let width = 1920
-//let height = 1080
+/* For some reason window.innerWidth and window.innerLength globals 
+do not always transfer to .js scripts. Only in one of them that is closes
+to the reveal js slide on which window is refhreshed. Have to use screen
+instead*/
+//let width = window.innerWidth
+//let height = window.innerHeight - 30
+let width = screen.width
+let height = screen.height - 30
 
 var timing = 0
 
@@ -348,7 +345,7 @@ var tfparams = {
     ,textAreaWidth: textfwidth
     ,textAreaHeight: 170
     ,text: "Root environment"
-    ,fontSize: 30
+    ,fontSize: 26
     ,fontFamily: NQFonts.paragraph
     ,rectStroke: "none"
     ,textColor: NQTextColors.white
@@ -361,7 +358,7 @@ var tfparams = {
     ,textAreaWidth: textfwidth
     ,textAreaHeight: 170
     ,text: "Additional environment"
-    ,fontSize: 30
+    ,fontSize: 26
     ,fontFamily: NQFonts.paragraph
     ,rectStroke: "none"
     ,textColor: NQTextColors.white
@@ -374,7 +371,7 @@ var tfparams = {
     ,textAreaWidth: textfwidth
     ,textAreaHeight: 170
     ,text: "R environment"
-    ,fontSize: 30
+    ,fontSize: 26
     ,fontFamily: NQFonts.paragraph
     ,rectStroke: "none"
     ,textColor: NQTextColors.white
@@ -383,12 +380,12 @@ tf_base_3 =  new TextField(tfparams);
 
 var tfparams = {
      //pos: [[width - 3*xdivstep, height - ydivstep]]
-     pos: [[width - 7*xdivstep, bottomy + 1*ydivstep]]     
+     pos: [[width - 5*xdivstep, bottomy + 0.5*ydivstep]]     
     ,id: "tf_source"
     ,textAreaWidth: textfwidth
     ,textAreaHeight: 170
     ,text: 'Idea from article by <a href="https://medium.freecodecamp.org/why-you-need-python-environments-and-how-to-manage-them-with-conda-85f155f4353c">Gergely Szerovay</a>.<br>Icon made by Freepik from www.flaticon.com.'
-    ,fontSize: 24
+    ,fontSize: 12
     ,fontFamily: NQFonts.paragraph
     ,rectStroke: "none"
     ,textColor: NQTextColors.white
