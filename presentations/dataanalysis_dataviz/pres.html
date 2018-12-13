@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Pres</title>
+
+		<meta name="author" content="Ville Voutilainen">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../revealjs/css/reveal.css">
+		<link rel="stylesheet" href="../revealjs/css/theme/noobquant.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="../revealjs/lib/css/zenburn.css">
+
+
+		<!--[if lt IE 9]>
+		<script src="revealjs/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+
+	<body>
+	
+		<script src="../revealjs/lib/js/head.min.js"></script>
+		<script src="../revealjs/js/reveal.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_SVG"></script>		
+		<script src="https://rawgit.com/noobquant/AnimationLib/master/basic_utils/NQ_colors_and_fonts.js"></script> 
+		<script type="https://rawgit.com/noobquant/AnimationLib/master/basic_utils/basic_utils.js"></script> 			
+
+		<div class="reveal">
+
+			<div class="slides">
+				
+				<section >					
+					<br>					
+					<br>
+					<h2>Prelude to Data Analytics</h2>
+					<p>
+						<a href="http://noobquant.site/">Ville Voutilainen</a>*
+					</p>
+					<br>
+					<p>
+						<small>
+						* Views expressed are those of the presenter. 
+						</small>
+					</p>
+					<p>
+						<small>
+						Presentation tested to work in Chrome. 
+						</small>
+					</p>					
+				</section>
+
+				<section id="intro">
+					<h3>In this presentation</h3>
+					<br>								
+					<ul>
+						<li class="fragment">My definition of <tspan id = 'redtspan'>Data Analytics</tspan> and related terms.</li>						
+						<li class="fragment">Diving into few special cases: <tspan id = 'purpletspan'>Predictive Modelling</tspan> and <tspan id = 'orangetspan'>Data Visualization</tspan>.</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Some good references</h3>
+					<br>								
+					<ul>
+						<li>Carmichael and Marron (2018): <a href="https://link.springer.com/article/10.1007/s42081-018-0009-3">Data science vs. statistics: two cultures?</a></li>
+						<li>Donoho (2017): <a href="https://www.tandfonline.com/doi/abs/10.1080/10618600.2017.1384734">50 years of Data Science</a></li>
+					</ul>
+				</section>
+				
+				<section >
+					<blockquote class="twitter-tweet tw-align-center" data-lang="en"><p lang="en" dir="ltr">&quot;A data scientist is a statistician who lives in San Francisco&quot; <a href="https://t.co/NAftOI9jmJ">pic.twitter.com/NAftOI9jmJ</a> via <a href="https://twitter.com/smc90?ref_src=twsrc%5Etfw">@smc90</a></p>&mdash; Chris Dixon (@cdixon) <a href="https://twitter.com/cdixon/status/428914681911070720?ref_src=twsrc%5Etfw">January 30, 2014</a></blockquote>
+					<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+				</section>
+
+				<section >
+					<h3>Definition of Data Science</h3>						
+					<blockquote>
+						&ldquo;To a general audience, data science is often defined as the intersection of three areas: maths/statistics, computation and a particular domain.&rdquo;
+					</blockquote>
+					<p>Carmichael and Marron (2018)</p>
+					<br>
+					<p> We define it as combination of six areas of <tspan id = 'orangetspan'>Greater Data Science</tspan> (GDS).</p>
+				</section>
+				
+				<section>
+					<h4>6 areas of Greater Data Science</h4><br>	
+					<ol>
+						<li class="fragment">Data gathering, preparation, and exploration.</li>
+						<li class="fragment">Data representation and transformation.</li>
+						<li class="fragment">Computing with data.</li>
+						<li class="fragment">Data modelling.</li>
+						<li class="fragment">Data visualization and presentation.</li>
+						<li class="fragment">Science about data science.</li>																																
+					</ol>
+
+					<aside class="notes">
+						GDS1: 80% of time goes here: wranging, preparing, initial EDA.<br>
+						GDS2: Basically storing data, data model.<br>
+						GDS3: Computationl work flow, computational efficiency!<br>
+						GDS4: We'll talk in a sec.<br>
+						GDS5: Slightly misleading name; generative modelling ("normal statistics"), predictive modelling (we'll talk in a sec)<br>
+						GDS6: Meta! Essential for scientific method
+					</aside>					
+				</section>				
+				
+				<section>
+					<h3>Definition of Data Analytics</h3>					
+					<blockquote>
+						&ldquo;Analytics is the discovery, interpretation, and communication of meaningful patterns in data and applying those patterns towards effective decision making. In other words, analytics can be understood as the connective tissue between data and effective decision making, within an organization.&rdquo;
+					</blockquote>
+					<p><a href="https://en.wikipedia.org/wiki/Analytics">Wikipedia</a></p>
+
+					<aside class="notes">
+						I think the "effective decision making" is important here!
+					</aside>
+				</section>				
+
+				
+				<section data-background="#FFFFFF">
+					<h4>Data Analytics Road Map</h4>
+					<img src="pics/data_science_map.svg"  width="100%" height="100%">
+				</section>					
+
+				<section>
+					<h3>My favorite toolkit</h3>
+					<br>
+					<p>Let's focus on two subfields</p>
+					<br>		
+					<ol>
+						<li class="fragment"><tspan id = 'redtspan'>Predictive modelling</tspan></li>
+						<li class="fragment"><tspan id = 'orangetspan'>Data visualization</tspan></li>
+					</ol>
+				</section>
+
+				<section>
+					<h4>...so thet we don't end up like this</h4>
+					<blockquote class="twitter-tweet tw-align-center" data-lang="en" 
+					style="position: static; visibility: visible; display: block; max-width: 100%; width: 500px; min-width: 220px; margin-top: 10px; margin-bottom: 10px;"
+					><p lang="en" dir="ltr">This Harvard Business Review chart seems to have been made by someone who didn&#39;t know what most of the terms meant: <a href="https://t.co/QA3jv0tBWN">https://t.co/QA3jv0tBWN</a> <a href="https://t.co/a6MZyeFfpO">pic.twitter.com/a6MZyeFfpO</a></p>&mdash; Stuart Buck (@StuartBuck1) <a href="https://twitter.com/StuartBuck1/status/1054469995776884737?ref_src=twsrc%5Etfw">October 22, 2018</a></blockquote>
+					<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+				</section>			
+				
+
+				<section
+					class="fig-container"
+					data-fig-id="predictive_modelling"
+					data-file="predictive_modelling.html"
+					data-transitions="4">					
+				</section>	
+
+
+				<section>
+					<h3>Visual introduction to predictive modelling</h3>
+					<br>	
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/muz80rOHYdc" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+				</section>				
+
+				<section >
+					<h3>If one insists on throwing "machine learning" in there...</h3>
+					<br>
+					<blockquote class="twitter-tweet tw-align-center" data-lang="en"><p lang="en" dir="ltr">I&#39;ve started mentally replacing &quot;AI&quot;, &quot;Neural Network&quot;, and other buzz terms with &quot;Predictive model&quot;. It removes a false sense of agency, better reflects reality, and instantly brings the hype factor down by 300%.</p>&mdash; Jesse Engel (@jesseengel) <a href="https://twitter.com/jesseengel/status/1050893286724972545?ref_src=twsrc%5Etfw">October 12, 2018</a></blockquote>
+					<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+				</section>
+
+				<section >
+					<h3>Data visualization</h3>
+					<br>						
+					<blockquote>
+						&ldquo;We should think of data visualization not only as a way to present findings but also as a tool that helps us think.&rdquo;
+					</blockquote>
+					<p>- Anonymous</p>
+
+					<aside class="notes">
+						It involves the creation and study of the visual representation of data.[1]
+					</aside>					
+				</section>
+
+				<section>
+					<section>
+							<h4>Greetings from the land of dataviz!</h4>
+							<img src="pics/Kuva2.jpg"  width="90%" height="90%">
+							<p><small>- Visualizing Knowledge Helsinki 2018</small></p>
+					</section>	
+
+					<section >
+						<h4>Dataviz is becoming essential part of scientific research</h4>
+						<img src="pics/Kuva1.jpg"  width="60%" height="60%">
+						<p style="font-size:60%;">Fidel Thomet and Boris Müller, Urban Complexity Lab</p>					
+					</section>
+						
+					<section >
+						<h3>Example of what it should not be...</h3>
+						<img src="pics/Kuva3.jpg"  width="60%" height="60%">
+						<p style="font-size:60%;">Fidel Thomet and Boris Müller, Urban Complexity Lab</p>						
+					</section>							
+				
+					<section >
+						<h3>What it should be instead...</h3>
+						<br>
+						<br>							
+						<ul>
+							<li>Nadieh Brehmer, a.k.a. <a href="https://www.visualcinnamon.com/">Visual Cinnamon</a>.</li>
+							<li>Map visualizations by <a href="https://tjukanov.org/">Topi Tjukanov</a>.</li>	
+							<li><a href="https://www.lucify.com/inside-einsteins-head/">Inside Einstein's head</a> by Lucify.</li>																														
+						</ul>					
+					</section>
+								
+				</section>
+
+				<section
+					class="fig-container"
+					data-fig-id="scene_kdd"
+					data-file="scene_kdd.html">
+					<h3>Related terminoly</h3>
+				</section>
+
+				<section data-background="#FFFFFF"
+					class="fig-container"
+					data-fig-id="fig-tools"
+					data-file="scene_toolchain.html"
+					data-transitions="1">
+					<h3>Data viz/analysis toolchain</h3>
+				</section>					
+				
+				<section >
+
+					<section >
+							<h3>Dataviz example 1</h3>
+							<img src="https://noobquant.github.io/ChartLibrary/applied_data_science/Chart1.png"  width="80%" height="80%">
+					</section>
+
+					<section >
+						<h3>Dataviz example 2</h3>
+						<br>
+						<iframe width="560" height="315" src="https://www.youtube.com/embed/VQ4G8gf7b4M" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>							
+					</section>
+				</section>	
+			
+				
+				<section >
+					<h3>Summary</h3>
+					<ul>
+						<li class="fragment"><tspan id = 'orangetspan'>Data Analytics</tspan>: Detection of patterns and <tspan id = 'orangetspan'>making better decisions</tspan> based on it. </li>
+						<li class="fragment">Subset of umbrella term "Data Science".</li>
+						<li class="fragment">In many industry cases<br><tspan id = 'purpletspan'>"Machine Learning" = "Predictive Modelling"</tspan>.</li>
+
+						<li class="fragment"><tspan id = 'redtspan'>Data Visualization</tspan> is an instrument that <tspan id = 'redtspan'>helps us think</tspan> and formulate hypotheses.</li>																		
+					</ul>
+				</section>
+
+				<!--<section data-background="http://i.giphy.com/90F8aUepslB84.gif"></section>-->
+				
+				<section >
+						<br>
+						<br>
+						<br>																
+						<h1>Thank you!</h1>
+						<p><a href="https://noobquant.site/">noobquant.site</a></p>
+				</section>								
+
+
+
+			</div>
+
+		</div>
+
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: false,
+
+				transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: '../revealjs/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: '../revealjs/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../revealjs/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../revealjs/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: '../revealjs/plugin/search/search.js', async: true },
+					{ src: '../revealjs/plugin/zoom-js/zoom.js', async: true },
+					{ src: 'https://d3js.org/d3.v4.min.js', },
+					{ src: '../revealjs/plugin/d3js/d3js.js' },					
+					{ src: '../revealjs/plugin/notes/notes.js', async: true },
+					{ src: '../revealjs/plugin/embed-tweet/embed-tweet.js' }
+				]
+
+			});
+
+		//addMathJax();
+		</script>	
+
+	</body>
+</html>
