@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<!-- Basic utilities of AnimationLib-->
+<script src="https://rawgit.com/noobquant/AnimationLib/master/basic_utils/NQ_colors_and_fonts.js"></script>
+<script src="https://rawgit.com/noobquant/AnimationLib/master/basic_utils/basic_utils.js"></script>
+
+<!-- d3-->
+<script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
+
+<!-- Math symbols-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_SVG">
+</script>
+
+
+</head>
+
+<style>
+
+.line {
+  fill: none;
+}
+
+
+</style>
+
+<body>
+
+
+ <script>
+
+
+  class Line{
+
+  constructor(params){
+
+
+    this.startPoint   = params.startPoint;
+    this.endPoint     = params.endPoint;
+    this.id           = params.id;
+    this.color        = params.color || d3.schemeCategory10[0];
+    this.strokeWidth  = params.strokeWidth || 1;
+
+    function lineData(d){
+        var points = [
+            {lx: d.source.x, ly: d.source.y},
+            {lx: d.target.x, ly: d.target.y}
+        ];
+        return line(points);
+    }
+
+    var line = d3.line()
+                    .x( function(point) { return point.lx; })
+                    .y( function(point) { return point.ly; });
+
+    var path = svg.append("path")
+                    .data([{source: {x : this.startPoint[0], y : this.startPoint[1]}
+                          ,target: {x : this.endPoint[0], y : this.endPoint[1]}}])
+                    .attr("class", "line")
+                    .style('stroke', this.color)
+                    .style('stroke-width', this.strokeWidth)
+                    .style("opacity",0)
+                    .attr("d", lineData);
+
+    var totalLength = path.node().getTotalLength();
+
+    this.path = path;
+    this.totalLength = totalLength; 
+  };
+
+  Draw(delay, duration){
+
+
+    function translateAlong(path){
+        var l = path.getTotalLength();
+        var ps = path.getPointAtLength(0);
+        var pe = path.getPointAtLength(l);
+        var angl = Math.atan2(pe.y - ps.y, pe.x - ps.x) * (180 / Math.PI) - 270;
+        var rot_tran = "rotate(" + angl + ")";
+
+      return function(d, i, a) {
+          return function(t) {
+            var p = path.getPointAtLength(t * l);
+          return "translate(" + p.x + "," + p.y + ") " + rot_tran;
+          };
+      };
+    };
+
+
+    this.path.attr("stroke-dasharray", this.totalLength + " " + this.totalLength)
+        .attr("stroke-dashoffset", this.totalLength)
+        .style("opacity",1)
+        .transition()
+        .delay(delay)
+        .duration(duration)        
+        .ease(d3.easeLinear)
+        .attr("stroke-dashoffset", 0);
+
+  };
+
+  Hide(delay, duration){
+
+    this.path
+        .transition()
+        .delay(delay)
+        .duration(duration)        
+        .style("opacity", 0.0);
+
+  };
+
+
+
+  };
+
+</script> 
+
+<script>
+
+/************************************************************
+ - Add credit: Icon made by Freepik from www.flaticon.com
+ - add class Line to animation lib
+ - add ease to moving Rectangle in anim lib
+************************************************************/
+
+/* For some reason window.innerWidth and window.innerLength globals 
+do not always transfer to .js scripts. Only in one of them that is closes
+to the reveal js slide on which window is refhreshed. Have to use screen
+instead*/
+//let width = window.innerWidth
+//let height = window.innerHeight - 30
+let width = screen.width
+let height = screen.height - 30
+
+var timing = 0
+
+// Canvas
+svg = SimpleCanvas(width,height, false);
+
+
+/***************************************************
+Define movement positions
+***************************************************/
+let xdivstep = width * (1/24)
+let ydivstep = height * (1/24)
+let barstartx = 150
+let section1posx = 3*xdivstep + 0*5*xdivstep + 0
+let section2posx = 3*xdivstep + 1*5*xdivstep + 0
+let section3posx = 3*xdivstep + 2*5*xdivstep + 0
+let darwidth = 4*xdivstep
+let textfwidth = 6*xdivstep
+let textfheight = 4*ydivstep
+let textfxpos = xdivstep * 16
+let textfypos = ydivstep * 4
+let darheight = ydivstep * 1.5
+let darheightthick = ydivstep * 4
+let bottomy = height - 3*ydivstep
+let hookintix = 4 // donno whay this is 4....
+
+/***************************************************
+Initialize Hook and its track
+***************************************************/
+imgparams = 
+  {
+    path: "pics/hook.svg"
+    ,id: "fig_hook"
+    ,pos: [50, 20]
+    ,correctors: [0, 0]
+    ,relsize: [3,3]
+  }
+let img_hook = new Image(imgparams)
+
+let lineparams = 
+{
+    id: "line3"
+    ,startPoint:  [3*xdivstep + 0*6*xdivstep, 77]
+    ,endPoint:    [3*xdivstep + 3*6*xdivstep, 77]
+    ,color:       NQColors.dark_grey
+    ,strokeWidth: 4
+}
+let line_hook = new Line(lineparams)
+
+/***************************************************
+Section separators
+***************************************************/
+lineparams = 
+{
+    id: "line1"
+    ,startPoint:  [3*xdivstep + 1*5*xdivstep, bottomy]
+    ,endPoint:    [3*xdivstep + 1*5*xdivstep, 400]
+    ,color:       NQColors.steelblue
+    ,strokeWidth: 4
+}
+let line1 = new Line(lineparams)
+
+lineparams = 
+{
+    id: "line2"
+    ,startPoint:  [3*xdivstep + 2*5*xdivstep, bottomy]
+    ,endPoint:    [3*xdivstep + 2*5*xdivstep, 400]
+    ,color:       NQColors.steelblue
+    ,strokeWidth: 4
+}
+let line2 = new Line(lineparams)
+
+
+/***************************************************
+Bars
+***************************************************/
+let rectparams = {
+   "pos"   : [[barstartx,150], [section1posx + 0.5*xdivstep,150], [section1posx + 0.5*xdivstep,bottomy - darheightthick]]
+  ,"dim"   : [darwidth,darheightthick]
+  ,"id"    : "rect1"
+  ,"color" : "#006600"
+	,"strokeColor": "black" 
+};
+var rect1 = new Rectangle(rectparams)
+
+rectparams = {
+   "pos"   : [[barstartx,150], [section1posx + 0.5*xdivstep,150], [section1posx + 0.5*xdivstep,bottomy - (darheightthick+1*darheight)]]
+  ,"dim"   : [darwidth,darheight]
+  ,"id"    : "rect2"
+  ,"color" : NQColors.light_purple
+	,"strokeColor": "black" 
+};
+var rect2 = new Rectangle(rectparams)
+
+rectparams = {
+   "pos"   : [[barstartx,150], [section1posx + 0.5*xdivstep,150], [section1posx + 0.5*xdivstep,bottomy - (darheightthick+2*darheight)]]
+  ,"dim"   : [darwidth,darheight]
+  ,"id"    : "rect3"
+  ,"color" : NQColors.orange
+	,"strokeColor": "black" 
+};
+var rect3 = new Rectangle(rectparams)
+
+rectparams = {
+   "pos"   : [[barstartx,150], [section2posx + 0.5*xdivstep,150], [section2posx + 0.5*xdivstep,bottomy - darheightthick]]
+  ,"dim"   : [darwidth,darheightthick]
+  ,"id"    : "rect4"
+  ,"color" : "#00b300"
+	,"strokeColor": "black" 
+};
+var rect4 = new Rectangle(rectparams)
+
+rectparams = {
+   "pos"   : [[barstartx,150], [section2posx + 0.5*xdivstep,150], [section2posx + 0.5*xdivstep,bottomy - (darheightthick+1*darheight)]]
+  ,"dim"   : [darwidth,darheight]
+  ,"id"    : "rect5"
+  ,"color" : NQColors.yellow
+	,"strokeColor": "black" 
+};
+var rect5 = new Rectangle(rectparams)
+
+rectparams = {
+   "pos"   : [[barstartx,150], [section3posx + 0.5*xdivstep,150], [section3posx + 0.5*xdivstep,bottomy - darheightthick]]
+  ,"dim"   : [darwidth,darheightthick]
+  ,"id"    : "rect6"
+  ,"color" : NQColors.steelblue
+	,"strokeColor": "black" 
+};
+var rect6 = new Rectangle(rectparams)
+
+rectparams = {
+   "pos"   : [[barstartx,150], [section3posx + 0.5*xdivstep,150], [section3posx + 0.5*xdivstep,bottomy - (darheightthick+1*darheight)]]
+  ,"dim"   : [darwidth,darheight]
+  ,"id"    : "rect7"
+  ,"color" : NQColors.light_grey
+	,"strokeColor": "black" 
+};
+var rect7 = new Rectangle(rectparams)
+
+/***************************************************
+Text fields
+***************************************************/
+var tfparams = {
+     pos: [[textfxpos, textfypos]]
+    ,id: "tf_exp_1"
+    ,textAreaWidth: textfwidth
+    ,textAreaHeight: 170
+    ,text: "Step 1: Anaconda installer sets up <i>conda</i>."
+    ,fontSize: 30
+    ,fontFamily: NQFonts.paragraph
+    ,rectStroke: "none"
+    ,textColor: NQTextColors.white
+};
+tf_exp_1 =  new TextField(tfparams);
+
+var tfparams = {
+     pos: [[textfxpos, textfypos]]
+    ,id: "tf_exp_2"
+    ,textAreaWidth: textfwidth
+    ,textAreaHeight: 170
+    ,text: "Step 2: <i>conda</i> creates root environment and installs Python as a package."
+    ,fontSize: 30
+    ,fontFamily: NQFonts.paragraph
+    ,rectStroke: "none"
+    ,textColor: NQTextColors.white
+};
+tf_exp_2 =  new TextField(tfparams);
+
+var tfparams = {
+     pos: [[textfxpos, textfypos]]
+    ,id: "tf_exp_3"
+    ,textAreaWidth: textfwidth
+    ,textAreaHeight: 170
+    ,text: "Step 3: Install additional Python packages as need arises, either using <i>conda install</i> or <i>pip install</i>."
+    ,fontSize: 30
+    ,fontFamily: NQFonts.paragraph
+    ,rectStroke: "none"
+    ,textColor: NQTextColors.white
+};
+tf_exp_3 =  new TextField(tfparams);
+
+var tfparams = {
+     pos: [[textfxpos, textfypos]]
+    ,id: "tf_exp_4"
+    ,textAreaWidth: textfwidth
+    ,textAreaHeight: 170
+    ,text: "Step 4: Create additional <i>environments</i> alongside root environment. Additional environment can contain e.g. different Python version with other packages."
+    ,fontSize: 30
+    ,fontFamily: NQFonts.paragraph
+    ,rectStroke: "none"
+    ,textColor: NQTextColors.white
+};
+tf_exp_4 =  new TextField(tfparams);
+
+var tfparams = {
+     pos: [[textfxpos, textfypos]]
+    ,id: "tf_exp_5"
+    ,textAreaWidth: textfwidth
+    ,textAreaHeight: 170
+    ,text: "Step 5: Create environment for R. Install packages into environment as per usual (<i>install.packages())</i) to newly created R environment."
+    ,fontSize: 30
+    ,fontFamily: NQFonts.paragraph
+    ,rectStroke: "none"
+    ,textColor: NQTextColors.white
+};
+tf_exp_5 =  new TextField(tfparams);
+
+var tfparams = {
+     pos: [[section1posx + 0.8*xdivstep, bottomy + 0.5*ydivstep]]
+    ,id: "tf_base_1"
+    ,textAreaWidth: textfwidth
+    ,textAreaHeight: 170
+    ,text: "Root environment"
+    ,fontSize: 26
+    ,fontFamily: NQFonts.paragraph
+    ,rectStroke: "none"
+    ,textColor: NQTextColors.white
+};
+tf_base_1 =  new TextField(tfparams);
+
+var tfparams = {
+     pos: [[section2posx + 0.8*xdivstep, bottomy + 0.5*ydivstep]]
+    ,id: "tf_base_2"
+    ,textAreaWidth: textfwidth
+    ,textAreaHeight: 170
+    ,text: "Additional environment"
+    ,fontSize: 26
+    ,fontFamily: NQFonts.paragraph
+    ,rectStroke: "none"
+    ,textColor: NQTextColors.white
+};
+tf_base_2 =  new TextField(tfparams);
+
+var tfparams = {
+     pos: [[section3posx + 0.8*xdivstep, bottomy + 0.5*ydivstep]]
+    ,id: "tf_base_3"
+    ,textAreaWidth: textfwidth
+    ,textAreaHeight: 170
+    ,text: "R environment"
+    ,fontSize: 26
+    ,fontFamily: NQFonts.paragraph
+    ,rectStroke: "none"
+    ,textColor: NQTextColors.white
+};
+tf_base_3 =  new TextField(tfparams);
+
+var tfparams = {
+     //pos: [[width - 3*xdivstep, height - ydivstep]]
+     pos: [[width - 5*xdivstep, bottomy + 0.5*ydivstep]]     
+    ,id: "tf_source"
+    ,textAreaWidth: textfwidth
+    ,textAreaHeight: 170
+    ,text: 'Idea from article by <a href="https://medium.freecodecamp.org/why-you-need-python-environments-and-how-to-manage-them-with-conda-85f155f4353c">Gergely Szerovay</a>.<br>Icon made by Freepik from www.flaticon.com.'
+    ,fontSize: 12
+    ,fontFamily: NQFonts.paragraph
+    ,rectStroke: "none"
+    ,textColor: NQTextColors.white
+};
+tf_source =  new TextField(tfparams);
+
+/***************************************************
+Animations
+Start animation: Hook contructs Puthon root
+First transition: Create custom python env, hook constructs
+Second transition: Create R env, hook contructs 
+***************************************************/
+
+img_hook.Draw(delay = timing, duration = 0)
+line_hook.Draw(delay = timing, duration = 0)
+tf_exp_1.Draw(delay = timing, duration = 0)
+tf_source.Draw(delay = timing, duration = 0)        
+
+var _transitions = []
+var _inverse_transitions = [];
+
+
+// Second transition
+_transitions.push(
+  () => {     
+
+        timing = 0
+        line1.Draw(delay = timing, duration = 500)
+        line2.Draw(delay = timing, duration = 500)               
+        tf_exp_1.Hide(delay = timing, duration = 0)
+        tf_base_1.Draw(delay = timing, duration = 400)
+        tf_exp_2.Draw(delay = timing, duration = 0)        
+        rect1.Draw(delay = timing, duration = 1000)
+        timing = timing + 1500        
+        d3.select("#fig_hook")
+            .transition()
+            .delay(timing)
+            .duration(1000)
+            .attr("transform", " translate(" + ((section1posx + 0.5*xdivstep) - barstartx) +","+ 0 +") scale(" + 4 + ")")  				  		      			
+        rect1.Move(stepno = 1, delay = timing, duration = 1000)
+        timing = timing + 1300
+        rect1.Move(stepno = 2, delay = timing, duration = 600)
+        timing = timing + 1000
+        d3.select("#fig_hook")
+            .transition()
+            .delay(timing)
+            .duration(1000)
+            .attr("transform", " translate(" + (hookintix) +","+ 0 +") scale(" + 4 + ")") 
+        }
+
+      
+);
+
+// Third transition
+_transitions.push(
+  () => {     
+
+        timing = 0
+        tf_exp_2.Hide(delay = timing, duration = 0)    
+        tf_exp_3.Draw(delay = timing, duration = 0)                
+        rect2.Draw(delay = timing, duration = 500)
+        timing = timing + 800
+        // 1st additional bar
+        d3.select("#fig_hook")
+            .transition()
+            .delay(timing)
+            .duration(1000)
+            .attr("transform", " translate(" + ((section1posx + 0.5*xdivstep) - barstartx) +","+ 0 +") scale(" + 4 + ")")  				  		      			
+        rect2.Move(stepno = 1, delay = timing, duration = 1000)
+        timing = timing + 1300
+        rect2.Move(stepno = 2, delay = timing, duration = 600)
+        timing = timing + 800
+        d3.select("#fig_hook")
+            .transition()
+            .delay(timing)
+            .duration(1000)
+            .attr("transform", " translate(" + (hookintix) +","+ 0 +") scale(" + 4 + ")") 
+        // 2nd additional bar
+        timing = timing + 1500
+        rect3.Draw(delay = timing, duration = 500)
+        timing = timing + 1000
+        d3.select("#fig_hook")
+            .transition()
+            .delay(timing)
+            .duration(1000)
+            .attr("transform", " translate(" + ((section1posx + 0.5*xdivstep) - barstartx) +","+ 0 +") scale(" + 4 + ")")  				  		      			
+        rect3.Move(stepno = 1, delay = timing, duration = 1000)
+        timing = timing + 1300
+        rect3.Move(stepno = 2, delay = timing, duration = 600)
+        timing = timing + 800
+        d3.select("#fig_hook")
+            .transition()
+            .delay(timing)
+            .duration(1000)
+            .attr("transform", " translate(" + (hookintix) +","+ 0 +") scale(" + 4 + ")")             
+        }
+);
+
+// Fourth transition
+_transitions.push(
+  () => {     
+
+        timing = 0
+        tf_base_2.Draw(delay = timing, duration = 400)            
+        tf_exp_3.Hide(delay = timing, duration = 0)
+        tf_exp_4.Draw(delay = timing, duration = 0)                
+        rect4.Draw(delay = timing, duration = 500)
+        timing = timing + 800
+        // 1st additional bar
+        d3.select("#fig_hook")
+            .transition()
+            .delay(timing)
+            .duration(1000)
+            .attr("transform", " translate(" + ((section2posx + 0.5*xdivstep) - barstartx) +","+ 0 +") scale(" + 4 + ")")  				  		      			
+        rect4.Move(stepno = 1, delay = timing, duration = 1000)
+        timing = timing + 1300
+        rect4.Move(stepno = 2, delay = timing, duration = 600)
+        timing = timing + 800
+        d3.select("#fig_hook")
+            .transition()
+            .delay(timing)
+            .duration(1000)
+            .attr("transform", " translate(" + (hookintix) +","+ 0 +") scale(" + 4 + ")") 
+        // 2nd additional bar
+        timing = timing + 1500
+        rect5.Draw(delay = timing, duration = 500)
+        timing = timing + 1000
+        d3.select("#fig_hook")
+            .transition()
+            .delay(timing)
+            .duration(1000)
+            .attr("transform", " translate(" + ((section2posx + 0.5*xdivstep) - barstartx) +","+ 0 +") scale(" + 4 + ")")  				  		      			
+        rect5.Move(stepno = 1, delay = timing, duration = 1000)
+        timing = timing + 1300
+        rect5.Move(stepno = 2, delay = timing, duration = 600)
+        timing = timing + 800
+        d3.select("#fig_hook")
+            .transition()
+            .delay(timing)
+            .duration(1000)
+            .attr("transform", " translate(" + (hookintix) +","+ 0 +") scale(" + 4 + ")")             
+        }
+);
+
+
+// Fifth transition
+_transitions.push(
+  () => {     
+
+        timing = 0
+        tf_base_3.Draw(delay = timing, duration = 400)            
+        tf_exp_4.Hide(delay = timing, duration = 0)
+        tf_exp_5.Draw(delay = timing, duration = 0)                
+        rect6.Draw(delay = timing, duration = 500)
+        timing = timing + 800
+        // 
+        d3.select("#fig_hook")
+            .transition()
+            .delay(timing)
+            .duration(1000)
+            .attr("transform", " translate(" + ((section3posx + 0.5*xdivstep) - barstartx) +","+ 0 +") scale(" + 4 + ")")  				  		      			
+        rect6.Move(stepno = 1, delay = timing, duration = 1000)
+        timing = timing + 1300
+        rect6.Move(stepno = 2, delay = timing, duration = 600)
+        timing = timing + 800
+        d3.select("#fig_hook")
+            .transition()
+            .delay(timing)
+            .duration(1000)
+            .attr("transform", " translate(" + (hookintix) +","+ 0 +") scale(" + 4 + ")") 
+        // 
+        timing = timing + 1500
+        rect7.Draw(delay = timing, duration = 500)
+        timing = timing + 1000
+        d3.select("#fig_hook")
+            .transition()
+            .delay(timing)
+            .duration(1000)
+            .attr("transform", " translate(" + ((section3posx + 0.5*xdivstep) - barstartx) +","+ 0 +") scale(" + 4 + ")")  				  		      			
+        rect7.Move(stepno = 1, delay = timing, duration = 1000)
+        timing = timing + 1300
+        rect7.Move(stepno = 2, delay = timing, duration = 600)
+        timing = timing + 800
+        d3.select("#fig_hook")
+            .transition()
+            .delay(timing)
+            .duration(1000)
+            .attr("transform", " translate(" + (hookintix) +","+ 0 +") scale(" + 4 + ")")             
+        }
+);
+
+
+_inverse_transitions.push(
+  () => {
+        tf_exp_1.Draw(delay = 0, duration = 0)
+        line1.Hide(delay = 0, duration = 0)
+        line2.Hide(delay = 0, duration = 0)      
+        rect1.Hide(delay = 0, duration = 0)
+        tf_exp_2.Hide(delay = 0, duration = 0) 
+        tf_base_1.Hide(delay = 0, duration = 0)                     
+        }
+);
+
+_inverse_transitions.push(
+  () => {
+        rect2.Hide(delay = 0, duration = 0)                        
+        rect3.Hide(delay = 0, duration = 0) 
+        tf_exp_3.Hide(delay = 0, duration = 0)                              
+        }
+);
+
+_inverse_transitions.push(
+  () => {
+        rect4.Hide(delay = 0, duration = 0)
+        rect5.Hide(delay = 0, duration = 0)
+        tf_exp_4.Hide(delay = 0, duration = 0)
+        tf_base_2.Hide(delay = 0, duration = 0)         
+        }
+);
+
+_inverse_transitions.push(
+  () => {
+        rect6.Hide(delay = 0, duration = 0)
+        rect7.Hide(delay = 0, duration = 0)
+        tf_exp_5.Hide(delay = 0, duration = 0)   
+        tf_base_3.Hide(delay = 0, duration = 0)                         
+        }
+);
+
+
+
+//}
+
+
+//addMathJax();
+
+
+
+</script> 
+
+</body>
+</html>

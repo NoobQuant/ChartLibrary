@@ -1,0 +1,11 @@
+Anaconda vs miniconda:
+https://stackoverflow.com/questions/45421163/anaconda-vs-miniconda/45421527#45421527
+
+Why you need Python environments and how to manage them with Conda (contains the pic to reproduce)
+https://medium.freecodecamp.org/why-you-need-python-environments-and-how-to-manage-them-with-conda-85f155f4353c
+
+Using R language with Anaconda
+https://docs.anaconda.com/anaconda/user-guide/tasks/use-r-language/
+
+Creating an R environment and running RStudio
+https://docs.anaconda.com/anaconda/navigator/tutorials/create-r-environment/

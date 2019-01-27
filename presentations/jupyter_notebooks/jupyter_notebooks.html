@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Python and R with Jupyter Notebooks</title>
+
+		<meta name="author" content="Ville Voutilainen">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="../revealjs/css/reveal.css">
+		<link rel="stylesheet" href="../revealjs/css/theme/noobquant.css" id="theme">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="../revealjs/lib/css/zenburn.css">
+
+
+		<!--[if lt IE 9]>
+		<script src="revealjs/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+
+	<body>
+	
+		<script src="../revealjs/lib/js/head.min.js"></script>
+		<script src="../revealjs/js/reveal.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_SVG"></script>		
+		<script src="https://rawgit.com/noobquant/AnimationLib/master/basic_utils/NQ_colors_and_fonts.js"></script> 
+		<script type="https://rawgit.com/noobquant/AnimationLib/master/basic_utils/basic_utils.js"></script> 			
+
+		<div class="reveal">
+
+			<div class="slides">
+				
+				<section >					
+					<br>					
+					<br>
+					<h2>Python and R with<br>Jupyter Notebooks</h2>
+					<p>
+						<a href="http://noobquant.site/">Ville Voutilainen</a>*
+					</p>
+					<br>
+					<p>
+						<small>
+						* Views expressed are those of the presenter. 
+						</small>
+					</p>
+					<p>
+						<small>
+						Presentation tested to work in Chrome. 
+						</small>
+					</p>					
+				</section>
+
+				<section id="intro">
+					<h3>In this presentation</h3>
+					<br>								
+					<ul>
+						<li class="fragment">What are <tspan id = 'redtspan'>Jupyter Notebooks</tspan>?</li>						
+						<li class="fragment">Why <tspan id = 'purpletspan'>data analysis</tspan> in notebooks?</li>
+						<li class="fragment">Employ both <tspan id = 'greentspan'>Python</tspan> and <tspan id = 'bluetspan'>R</tspan> (together or separately) in notebooks.</li>
+					</ul>
+				</section>
+
+				<section >
+					<br>					
+					<br>						
+					<blockquote>
+						&ldquo;Code is never just code. It's part of a thought process, an argument, even an experiment.&rdquo;
+					</blockquote>
+					<p><a href="https://www.oreilly.com/ideas/what-is-jupyter">What is Jupyter?</a> by O'reily.</p>
+				</section>				
+				
+				<section >
+					<br>					
+					<br>						
+					<blockquote>
+						&ldquo;A Jupyter notebook is an excellent means of capturing code, text, widgets, graphics, and other rich media in a computational narrative that distills data into insights.&rdquo;
+					</blockquote>
+					<p>IBM Emerging Technologies<a href="http://blog.ibmjstart.net/2015/08/22/dynamic-dashboards-from-jupyter-notebooks/"> blog</a>.</p>										
+				</section>			
+
+				<section
+					class="fig-container"
+					data-fig-id="scene_kdd"
+					data-file="scene_kdd2.html">
+					<h3>Field of knowledge discovery</h3>
+				</section>		
+
+				<section>
+					<h3>How do notebooks help?</h3>
+					<div style="width: 100%; overflow: hidden;">
+						<div style="width: 600px; float: left;">
+							<ul>
+								<li class="fragment"><tspan id = 'orangetspan'>KDD</tspan>: Text, equations, code and graphs in one place.</li>								
+								<li class="fragment"><tspan id = 'purpletspan'>EDA</tspan>: Play around with data in contained code cells.</li>											
+								<li class="fragment"><tspan id = 'browntspan'>Info viz</tspan>: Produce interactive/static plots and render them in-place.</li>
+								<li class="fragment">Share work in browsers - universal access.</li>											
+							</ul>					
+						</div>
+						<div style="margin-left: 620px;">
+							<img src="pics/notebook_capture.PNG"  width="90%" height="90%">
+							<p style="font-size:60%;">Example of a notebook.</p>			
+						</div>
+					</div>					
+				</section>
+
+
+
+				<section >
+					<h4>Notebooks, Python, and R as part of Anaconda installation</h4>
+					<ul>
+						<li class="fragment"><tspan id = 'orangetspan'>Anaconda</tspan> is a popular data science platform for <tspan id = 'greentspan'>Python</tspan> and <tspan id = 'bluetspan'>R</tspan>.</li>
+						<li class="fragment">It comes pre-installed with over 1000 data packages, e.g. Jupyter notebooks, RStudio etc.</li>
+						<li class="fragment">Python and R are run within virtual <tspan id = 'purpletspan'>environments</tspan>.</li>
+						<li class="fragment">Packages and environments are managed with <tspan id = 'redtspan'>conda</tspan>, Anaconda's packages manager.</li>												
+					</ul>
+				</section>
+
+				<section
+					class="fig-container"
+					data-fig-id="scene_environments"
+					data-file="scene_environments.html">
+			
+					<aside class="notes">
+						The hook is conda, the packet manager.
+					</aside>
+
+				</section>
+						
+
+
+				<section >
+					<h2>R or Python?</h2>
+					<ul>
+						<li class="fragment" data-notes="Both pretty strong in data wrangling.">Similar tools, however with specific strengths and weaknesses.</li>
+						<li class="fragment" data-notes="Infrastructure, web developement."><tspan id = 'greentspan'>Python</tspan>: Strong on being multi-purpose language.</li>
+						<li class="fragment" data-notes="Useful especially for very nieche things"><tspan id = 'bluetspan'>R</tspan>: Strong on statistical techniques.</li>
+						<li class="fragment" data-notes="However I would argue for learning either one very well. The other can complement if needed.">Often reasons to use both!</li>																				
+					</ul>
+				</section>					
+
+
+				<section >
+					<h2>Examples</h2>
+					<p>Let's walk through a few examples:</p>
+					<br>
+					<ul>
+						<li><a href="https://github.com/NoobQuant/CodingExamples/blob/master/jn_pres/python/python_example.ipynb">Python</a>: Explore the iris dataset.</li>								
+						<li><a href="https://github.com/NoobQuant/CodingExamples/blob/master/jn_pres/r/r_example.ipynb">R</a>: Self-Organizing Map on student admission data.</li>
+						<li><a href="https://github.com/NoobQuant/CodingExamples/blob/master/jn_pres/combined/python_with_r_example.ipynb">Combined</a>: Example how to use Python and R in same kernel.</li>							
+					</ul>												
+				</section>	
+
+
+
+				<section data-background="http://i.giphy.com/90F8aUepslB84.gif"></section>	
+				
+				<section >
+					<h2>Summary</h2>
+					<ul>
+						<li>Notebooks: create dynamic <tspan id = 'orangetspan'>narratives</tspan> out of your data.</li>
+						<li>Very useful for <tspan id = 'redtspan'>exploratory</tspan> data analysis.</li>
+						<li>Can be used within teams to  <tspan id = 'purpletspan'>share results</tspan>.</li>
+						<li><tspan id = 'bluetspan'>R</tspan> or <tspan id = 'greentspan'>Python</tspan>? Why not both?</li>																							
+					</ul>
+				</section>
+
+				<section >
+						<br>
+						<br>
+						<br>																
+						<h1>Thank you!</h1>
+						<p><a href="https://noobquant.site/">noobquant.site</a></p>
+				</section>								
+
+			</div>
+
+		</div>
+
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: false,
+
+				transition: 'convex', // none/fade/slide/convex/concave/zoom
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: '../revealjs/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: '../revealjs/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../revealjs/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: '../revealjs/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: '../revealjs/plugin/search/search.js', async: true },
+					{ src: '../revealjs/plugin/zoom-js/zoom.js', async: true },
+					{ src: 'https://d3js.org/d3.v4.min.js', },
+					{ src: '../revealjs/plugin/d3js/d3js.js' },					
+					{ src: '../revealjs/plugin/notes/notes.js', async: true }
+				]
+
+			});
+
+		//addMathJax();
+		</script>	
+
+	</body>
+</html>

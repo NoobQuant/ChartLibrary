@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<script src="https://rawgit.com/noobquant/AnimationLib/master/basic_utils/NQ_colors_and_fonts.js"></script> 
+<script src="https://rawgit.com/noobquant/AnimationLib/master/basic_utils/basic_utils.js"></script>
+
+<!-- d3-->
+<script src="https://d3js.org/d3.v4.js" charset="utf-8"></script>
+
+
+<!-- Math symbols-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_SVG">
+</script>
+
+<!-- Convenience for multi-value syntax to selections and transitions, allowing you to set multiple attributes, styles or properties simultaneously-->
+<script src="https://d3js.org/d3-selection-multi.v0.4.min.js"></script>
+
+<!-- Grids-->
+<script src="http://romsson.github.io/d3-gridding/build/d3-gridding.js"></script>
+
+
+</head>
+
+<style>
+
+.line {
+  fill: none;
+}
+
+
+.stop-left {
+    stop-color: rgba(228, 239, 233, 1.00);     
+}
+
+.stop-right {
+    stop-color: rgba(147, 165, 207, 1.00);
+}
+
+.filled {
+    fill: url(#mainGradient);
+}
+
+.outlined {
+    fill:   none;
+    stroke: url(#mainGradient);
+    stroke-width: 4;
+}
+
+
+
+</style>
+
+<body>
+
+
+<script>
+
+/************************************************
+svg
+************************************************/
+
+//svg = SimpleCanvas(1930,1090, false, color = NQBGColors.dark_blue);
+var width = 1920,
+    height = 1080;
+svg = d3.select("body").append("div").append("svg")
+    // Scalable svg 
+    .attr('viewBox','0 0 ' + width + ' ' + height)
+    .attr('preserveAspectRatio','xMidYMid meet')
+    .style("width", '98%')
+    .style("height", '98%')
+    .style("display", "block")
+    .style("position", "absolute");
+
+
+
+
+
+
+/************************************************
+Main title 
+************************************************/
+var yspace = 150;
+
+var tfParams = {
+     pos: [[550,120]]
+    ,id: "tf"
+    ,textAreaWidth: 1500
+    ,textAreaHeight: 170
+	,text: "<b>PREDICTIVE MODELLING</b>"
+	,scaleEase: "d3.easeBounce"
+	,fontSize: 72
+	,fontFamily: NQFonts.heading
+	,rectStroke: "none"
+    //,textColor: "rgba(228, 239, 233, 1.00)"
+    ,textColor : NQTextColors.white
+};
+tf =  new TextField(tfParams);
+
+
+
+
+/************************************************
+Draw stuff about getting from current information
+to prediction about uncertain future
+************************************************/
+///*
+var start_x = 420
+var sub_title_y = 340
+
+var tfParams = {
+     pos: [[start_x - 200,sub_title_y]]
+    ,id: "tf_aux1"
+    ,textAreaWidth: 900
+    ,textAreaHeight: 170
+    ,text: "Available information"
+    ,fontSize: 42
+    //,fontFamily: "Arial"
+    ,fontFamily: NQFonts.heading    
+    ,rectStroke: "none"
+    //,textColor: "rgba(228, 239, 233, 1.00)"
+    ,textColor : NQTextColors.white
+};
+tf_aux1 =  new TextField(tfParams);
+
+var tfParams = {
+     pos: [[start_x+ 230,sub_title_y]]
+    ,id: "tf_aux3"
+    ,textAreaWidth: 900
+    ,textAreaHeight: 170
+    ,text: "Unknown state"
+    ,fontSize: 42
+    //,fontFamily: "Arial"
+    ,fontFamily: NQFonts.heading
+    ,rectStroke: "none"
+    //,textColor: "rgba(228, 239, 233, 1.00)"
+    ,textColor : NQTextColors.white
+};
+tf_aux3 =  new TextField(tfParams);
+
+var tfParams = {
+     pos: [[start_x+ 630,sub_title_y]]
+    ,id: "tf_aux2"
+    ,textAreaWidth: 900
+    ,textAreaHeight: 170
+    ,text: "Modelling"
+    ,fontSize: 42
+    //,fontFamily: "Arial"
+    ,fontFamily: NQFonts.heading
+    ,rectStroke: "none"
+    //,textColor: "rgba(228, 239, 233, 1.00)"
+    ,textColor : NQTextColors.white
+};
+tf_aux2 =  new TextField(tfParams);
+
+var tfParams = {
+     pos: [[start_x + 960,sub_title_y]]
+    ,id: "tf_aux5"
+    ,textAreaWidth: 900
+    ,textAreaHeight: 170
+    ,text: "Prediction"
+    ,fontSize: 42
+    //,fontFamily: "Arial"
+    ,fontFamily: NQFonts.heading
+    ,rectStroke: "none"
+    //,textColor: "rgba(228, 239, 233, 1.00)"
+    ,textColor : NQTextColors.white
+};
+tf_aux5 =  new TextField(tfParams);
+
+
+var circleparams1 = 
+  {
+    id: "circle1"
+    ,pos: [[start_x, 500]]
+    ,entpoint: [start_x - 60, 460]
+    ,r: 70
+    //,color: '#e77200'
+    ,color : NQColors.orange
+    ,strokeWidth: 2
+    ,strokeColor: 'white'
+    ,moveInEase: d3.easeLinear
+  }
+var circle1 = new Circle(circleparams1);
+
+var circleparams2 = 
+  {
+    id: "circle2"
+    ,pos: [[start_x - 40, 650]]
+    ,entpoint: [start_x - 40 - 60,650]
+    ,r: 70
+    ,color : NQColors.dark_purple 
+    //,color: '#660066'
+    ,strokeWidth: 2
+    ,strokeColor: 'white'
+    ,moveInEase: d3.easeLinear
+  }
+var circle2 = new Circle(circleparams2);
+
+var circleparams3 = 
+  {
+    id: "circle3"
+    ,pos: [[start_x, 800]]
+    ,entpoint: [start_x - 60,840]
+    ,r: 70
+    ,color : NQColors.dark_purple
+    ,strokeWidth: 2
+    ,strokeColor: 'white'
+    ,moveInEase: d3.easeLinear
+  }
+var circle3 = new Circle(circleparams3);
+
+var circleparams4 = 
+  {
+    id: "circle4"
+    ,pos: [[start_x + 350, 650], [start_x + 1040, 650]]
+    ,entpoint: [start_x +350 - 60,650]
+    ,r: 70
+    ,color: NQColors.light_grey
+    ,strokeWidth: 2
+    ,strokeColor: 'white'
+    ,moveInEase: d3.easeLinear
+  }
+var circle4 = new Circle(circleparams4);
+
+var tfParams = {
+     pos: [[start_x + 317,580]]
+    ,id: "tf_aux4"
+    ,textAreaWidth: 900
+    ,textAreaHeight: 170
+    ,text: "?"
+    ,fontSize: 120
+    //,fontFamily: "Arial"
+    ,fontFamily: NQFonts.heading
+    ,rectStroke: "none"
+    //,textColor: "rgba(228, 239, 233, 1.00)"
+    ,textColor : NQColors.red
+};
+tf_aux4 =  new TextField(tfParams);
+
+
+var arrowparams1 = 
+{
+    id: "arrow1"
+    ,startPoint:  [start_x + 600, 650]
+    ,endPoint:    [start_x + 600 + 250, 650]
+    ,color:       NQColors.light_purple
+    ,strokeWidth: 6
+}
+
+
+
+
+
+
+
+
+
+tf.Draw(delay = 0, duration = 0);
+
+
+var _transitions = [],
+    _inverse_transitions = [];
+
+_transitions.push(
+  () => { 
+        circle1.Draw(delay = 0,       duration = 600, type = 'movein') 
+        circle2.Draw(delay = 0,       duration = 600, type = 'movein')
+        circle3.Draw(delay = 0,       duration = 600, type = 'movein')
+        tf_aux1.Draw(delay = 0 + 300, duration = 600)
+        }
+
+);
+
+_transitions.push(
+  () => { 
+        circle4.Draw(delay = 0,       duration = 600, type = 'movein')
+        tf_aux3.Draw(delay = 0,       duration = 600)
+        tf_aux4.Draw(delay = 0 + 300, duration = 600)
+        }
+
+);
+
+_transitions.push(
+  () => {
+        arrow1 = new Arrow(arrowparams1) // for some reason this is drawn if it is in the body... 
+        arrow1.Draw(delay  = 0 , duration = 400)
+        tf_aux2.Draw(delay = 0,  duration = 600)
+        }
+);
+
+_transitions.push(
+  () => {
+        circle4.Move(stepno = 1, delay = 0, duration = 4000)
+        circle4.ChangeColor(color = NQColors.orange, delay = 0 + 4000, duration = 500)
+        tf_aux5.Draw(delay = 0 + 2000, duration = 600)
+        }
+);
+
+_inverse_transitions.push(
+  () => {
+
+        circle1.Hide(0, 0);
+        circle2.Hide(0, 0);
+        circle3.Hide(0, 0);
+        tf_aux1.Hide(0, 0);
+        }
+
+);
+
+_inverse_transitions.push(
+  () => {
+        circle4.Hide(0, 0);
+        tf_aux3.Hide(0, 0);
+        tf_aux4.Hide(0, 0);        
+        }
+);
+
+
+_inverse_transitions.push(
+  () => {
+        arrow1.Hide(0,0)
+        tf_aux2.Hide(0,0)       
+        }
+);
+
+_inverse_transitions.push(
+  () => {
+        circle4.Hide(0,0)
+        circle4.Hide(0,0)
+        tf_aux5.Hide(0,0)
+        }
+);
+
+
+
+addMathJax();
+
+
+</script> 
+
+</body>
+</html>
