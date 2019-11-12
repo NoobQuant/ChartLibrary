@@ -1,4 +1,4 @@
-import {Image} from '../../animlib/src/classes/Image.js'
+import {Image} from '../../animlibx/src/classes/Image.js'
 
 let width = 1920
 let height = 1080
