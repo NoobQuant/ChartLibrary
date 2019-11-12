@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <!-- d3-->
+  <script src="https://d3js.org/d3.v5.js" charset="utf-8"></script>
+
+  <!-- Math symbols PUT AS LAST IMPORT!-->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_SVG">
+  </script>  
+
+</head>
+
+<style>
+</style>
+
+<body>
+  <script type="module">
+  import * as Module from './scene_ex1_init.js'
+  import {AddMathJax} from '../animlib/src/functions/AddMathJax.js'
+  import {NQColors} from '../animlib/src/variables/NQ_colors_and_fonts.js'  
+
+  /************************************************
+  Draw stuff that are not in transitions
+  ************************************************/
+  Module.tf.Draw({delay:200, duration:0})
+
+  /************************************************
+  Draw stuff that are in transitions
+  ************************************************/
+   var _transitions = []
+   var _inverse_transitions = []
+
+  _transitions.push(
+    () => {
+          Module.circle1.Draw({delay:0, duration:600, type:'movein'})
+          Module.circle2.Draw({delay:0, duration:600, type:'movein'})
+          Module.circle3.Draw({delay:0, duration:600, type:'movein'})
+          Module.tf_aux1.Draw({delay:0, duration:600+300})
+          }
+  )
+
+  _transitions.push(
+    () => { 
+          Module.circle4.Draw({delay:0, duration:600, type:'movein'})
+          Module.tf_aux3.Draw({delay:0, duration:600})
+          Module.tf_aux4.Draw({delay:300, duration:600})
+          }
+  )
+
+  _transitions.push(
+    () => {
+          Module.arrow1.Draw({delay:0, duration:400})
+          Module.tf_aux2.Draw({delay:0, duration:600})
+          }
+  )
+
+  _transitions.push(
+    () => {
+
+          Module.circle4.Update({delay:0, duration:4000, params:{moveStepNo:1}})
+          Module.circle4.ChangeColor({color:NQColors.orange, delay:4000, duration:500})
+          Module.tf_aux5.Draw({delay:2000, duration:600})
+          }
+  )
+
+  _inverse_transitions.push(
+    () => {
+
+          Module.circle1.Hide({delay:0, duration:0})
+          Module.circle2.Hide({delay:0, duration:0})      
+          Module.circle3.Hide({delay:0, duration:0})
+          Module.tf_aux1.Hide({delay:0, duration:0})
+          }
+  )
+
+  _inverse_transitions.push(
+    () => {
+          Module.circle4.Hide({delay:0, duration:0})
+          Module.tf_aux3.Hide({delay:0, duration:0})
+          Module.tf_aux4.Hide({delay:0, duration:0})        
+          }
+  )
+
+  _inverse_transitions.push(
+    () => {
+          Module.arrow1.Hide({delay:0, duration:0})
+          Module.tf_aux2.Hide({delay:0, duration:0})
+          }
+  )
+
+  _inverse_transitions.push(
+    () => {
+          Module.circle4.Hide({delay:0, duration:0})
+          Module.tf_aux5.Hide({delay:0, duration:0})
+          Module.circle4.ChangeColor({color:NQColors.light_grey, delay:20, duration:0})
+          Module.circle4.Draw({delay:30, duration:0})
+          }
+  )
+
+  // Transition variables need bo added to global scope!
+  window._transitions = _transitions
+  window._inverse_transitions = _inverse_transitions
+
+  /************************************************
+  Math text
+  ************************************************/  
+  AddMathJax(Module.svg)
+
+  </script> 
+
+</body>
+</html>

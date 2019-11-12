@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <!-- d3-->
+  <script src="https://d3js.org/d3.v5.js" charset="utf-8"></script>
+
+  <!-- Math symbols PUT AS LAST IMPORT!-->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_SVG">
+  </script>  
+
+</head>
+
+<style>
+
+</style>
+
+<body>
+
+
+  <script type="module">
+
+  import {SimpleCanvas} from '../animlib/src/functions/SimpleCanvas.js'
+  import {NQBGColors,NQColors,NQTextColors,NQFonts} from '../animlib/src/variables/NQ_colors_and_fonts.js'    
+  import {Path} from '../animlib/src/classes/Path.js'
+  import {Arrow} from '../animlib/src/classes/Arrow.js'
+  import {TextObject} from '../animlib/src/classes/TextObject.js'
+  import {Circle} from '../animlib/src/classes/Circle.js'
+  import {AddMathJax} from '../animlib/src/functions/AddMathJax.js'
+
+  /************************************************
+  svg
+  ************************************************/
+  let width = 1920
+  let height = 1080
+  // Scalable svg
+  const svg = d3.select("body").append("div").append("svg")
+                .attr('id','bgsvg')
+                .attr('viewBox','0 0 ' + width + ' ' + height)
+                .attr('preserveAspectRatio','xMidYMid meet')
+                .style("width", '98%')
+                .style("height", '98%')
+                .style("display", "block")
+                .style("position", "absolute")
+
+  /************************************************
+  Main title 
+  ************************************************/
+  let yspace = 150;
+
+  let tfParams = {
+       pos: [[550,120]]
+      ,id: "tf"
+      ,textAreaWidth: 1500
+      ,textAreaHeight: 170
+      ,text: "<b>PREDICTIVE MODELLING</b>"
+      ,scaleEase: "d3.easeBounce"
+      ,fontSize: 72
+      ,fontFamily: NQFonts.heading
+      ,rectStroke: "none"
+      ,textColor : NQTextColors.white
+  };
+  let tf =  new TextObject(tfParams)
+
+  /************************************************
+  Define objects
+  ************************************************/
+  
+  let start_x = 420
+  let sub_title_y = 340
+
+  tfParams = {
+      pos: [[start_x - 200,sub_title_y]]
+      ,id: "tf_aux1"
+      ,textAreaWidth: 900
+      ,textAreaHeight: 170
+      ,text: "Available information"
+      ,fontSize: 42
+      ,fontFamily: NQFonts.heading    
+      ,rectStroke: "none"
+      ,textColor : NQTextColors.white
+  };
+  let tf_aux1 =  new TextObject(tfParams)
+
+  tfParams = {
+      pos: [[start_x+ 230,sub_title_y]]
+      ,id: "tf_aux3"
+      ,textAreaWidth: 900
+      ,textAreaHeight: 170
+      ,text: "Unknown state"
+      ,fontSize: 42
+      ,fontFamily: NQFonts.heading
+      ,rectStroke: "none"
+      ,textColor : NQTextColors.white
+  };
+  let tf_aux3 =  new TextObject(tfParams)
+
+  tfParams = {
+      pos: [[start_x+ 630,sub_title_y]]
+      ,id: "tf_aux2"
+      ,textAreaWidth: 900
+      ,textAreaHeight: 170
+      ,text: "Modelling"
+      ,fontSize: 42
+      ,fontFamily: NQFonts.heading
+      ,rectStroke: "none"
+      ,textColor : NQTextColors.white
+  };
+  let tf_aux2 =  new TextObject(tfParams)
+
+  tfParams = {
+      pos: [[start_x + 960,sub_title_y]]
+      ,id: "tf_aux5"
+      ,textAreaWidth: 900
+      ,textAreaHeight: 170
+      ,text: "Prediction"
+      ,fontSize: 42
+      ,fontFamily: NQFonts.heading
+      ,rectStroke: "none"
+      ,textColor : NQTextColors.white
+  };
+  let tf_aux5 =  new TextObject(tfParams)
+
+  let circleparams1 = 
+    {
+      id: "circle1"
+      ,pos: [[start_x, 500]]
+      ,entpoint: [start_x - 60, 460]
+      ,r: 70
+      ,color : NQColors.orange
+      ,strokeWidth: 2
+      ,strokeColor: 'white'
+      ,moveInEase: d3.easeLinear
+    }
+  let circle1 = new Circle(circleparams1)
+
+  let circleparams2 = 
+    {
+      id: "circle2"
+      ,pos: [[start_x - 40, 650]]
+      ,entpoint: [start_x - 40 - 60,650]
+      ,r: 70
+      ,color : NQColors.dark_purple 
+      ,strokeWidth: 2
+      ,strokeColor: 'white'
+      ,moveInEase: d3.easeLinear
+    }
+  let circle2 = new Circle(circleparams2)
+
+  let circleparams3 = 
+    {
+      id: "circle3"
+      ,pos: [[start_x, 800]]
+      ,entpoint: [start_x - 60,840]
+      ,r: 70
+      ,color : NQColors.dark_purple
+      ,strokeWidth: 2
+      ,strokeColor: 'white'
+      ,moveInEase: d3.easeLinear
+    }
+  let circle3 = new Circle(circleparams3)
+
+  let circleparams4 = 
+    {
+      id: "circle4"
+      ,pos: [[start_x + 350, 650], [start_x + 1040, 650]]
+      ,entpoint: [start_x +350 - 60,650]
+      ,r: 70
+      ,color: NQColors.light_grey
+      ,strokeWidth: 2
+      ,strokeColor: 'white'
+      ,moveInEase: d3.easeLinear
+    }
+  let circle4 = new Circle(circleparams4)
+
+  tfParams = {
+      pos: [[start_x + 317,580]]
+      ,id: "tf_aux4"
+      ,textAreaWidth: 900
+      ,textAreaHeight: 170
+      ,text: "?"
+      ,fontSize: 120
+      ,fontFamily: NQFonts.heading
+      ,rectStroke: "none"
+      ,textColor : NQColors.red
+  };
+  let tf_aux4 =  new TextObject(tfParams)
+
+  let arrowparams1 = 
+  {
+      id: "arrow1"
+      ,startPoint:  [start_x + 600, 650]
+      ,endPoint:    [start_x + 600 + 250, 650]
+      ,color:       NQColors.light_purple
+      ,strokeWidth: 6
+  }
+  //let arrow1 = new Arrow(arrowparams1)
+  
+
+  /************************************************
+  Draw stuff that are not in transitions
+  ************************************************/
+  tf.Draw({delay:200, duration:0})
+
+  /************************************************
+  Draw stuff that are in transitions
+  ************************************************/
+  
+   // These two need to be in global context!
+   var _transitions = []
+   var _inverse_transitions = []
+
+  _transitions.push(
+    () => {
+          circle1.Draw({delay:0, duration:600, type:'movein'})
+          circle2.Draw({delay:0, duration:600, type:'movein'})
+          circle3.Draw({delay:0, duration:600, type:'movein'})
+          tf_aux1.Draw({delay:0, duration:600+300})
+          }
+  )
+
+  _transitions.push(
+    () => { 
+          circle4.Draw({delay:0, duration:600, type:'movein'})
+          tf_aux3.Draw({delay:0, duration:600})
+          tf_aux4.Draw({delay:300, duration:600})
+          }
+  )
+
+  _transitions.push(
+    () => {
+          //arrow1.Draw({delay:0, duration:400})
+          tf_aux2.Draw({delay:0, duration:600})
+          }
+  )
+
+  _transitions.push(
+    () => {
+
+          circle4.Update({delay:0, duration:4000, params:{moveStepNo:1}})
+          circle4.ChangeColor({color:NQColors.orange, delay:4000, duration:500})
+          tf_aux5.Draw({delay:2000, duration:600})
+          }
+  )
+
+  _inverse_transitions.push(
+    () => {
+
+          circle1.Hide({delay:0, duration:0})
+          circle2.Hide({delay:0, duration:0})      
+          circle3.Hide({delay:0, duration:0})
+          tf_aux1.Hide({delay:0, duration:0})
+          }
+  )
+
+  _inverse_transitions.push(
+    () => {
+          circle4.Hide({delay:0, duration:0})
+          tf_aux3.Hide({delay:0, duration:0})
+          tf_aux4.Hide({delay:0, duration:0})        
+          }
+  )
+
+  _inverse_transitions.push(
+    () => {
+          //arrow1.Hide({delay:0, duration:0})
+          tf_aux2.Hide({delay:0, duration:0})
+          }
+  )
+
+  _inverse_transitions.push(
+    () => {
+          circle4.Hide({delay:0, duration:0})
+          tf_aux5.Hide({delay:0, duration:0})
+          circle4.ChangeColor({color:NQColors.light_grey, delay:20, duration:0})
+
+          circle4.Draw({delay:30, duration:0})
+          
+          }
+  )
+
+  /************************************************
+  Math text
+  ************************************************/  
+  AddMathJax(svg)
+
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="reveal.js/css/reset.css">
+		<link rel="stylesheet" href="reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="reveal.js/css/theme/nqtheme.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="reveal.js/lib/css/monokai.css">
+		<!-- Social media icons -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">		
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+				<!-- Title slide -->
+				<section class="center" style="top: 400px; display: block;">	
+						<h1>h1 title</h1>
+						<p>
+							<a href="http://noobquant.site/">Ville Voutilainen</a>
+						</p>
+						<p>
+							<small>
+							* Views expressed are those of the presenter.<br>
+							Presentation tested to work in Chrome. 
+							</small>
+						</p>
+				</section>
+
+				<!-- In this presentation -->
+				<section>
+					<h3>In this presentation</h3>
+					<br>
+					<ul>
+						<li class="fragment">Quick motivation for data visualizations.</li>
+						<br>
+						<li class="fragment">Basics of creating visualization in web browser.</li>
+						<br>
+						<li class="fragment">Hands-on examples.</li>		
+					</ul>
+				</section>					
+
+				<!-- About myself slide-->				
+				<section class="center" data-background-iframe="http://noobquant.site/" data-background-interactive>
+					<div style="position: absolute; width: 40%; right: 0; box-shadow: 0 1px 4px rgba(0,0,0,0.5), 0 5px 25px rgba(0,0,0,0.2); background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px; font-size: 20px; text-align: left;">
+						<h2>About me</h2>
+						<p>See my web page <a href="http://noobquant.site/">noobquant.site</a> for more!</p>
+					</div>
+				</section>
+								
+				<!-- Example markup slide -->					
+				<section data-markdown>		
+						<textarea data-template>
+							## h2 title
+					
+							A paragraph with some text and a [link](http://noobquant.site/).
+						</textarea>						
+				</section>					
+
+				<!-- Simple slide -->
+				<section>Slide 1</section>
+
+				<!-- Animated slide using AnimationLib -->				
+				<section
+					class="fig-container"
+					data-fig-id="scene_ex1"
+					data-file="scenes/scene_ex1_show.html"
+					data-transitions="4"> <!--THIS NEEDS TO BE CHANGED DEPENDING ON # OF TRANSITIONS IN THE SCENE!-->	
+				</section>
+
+				<!-- Slide with tweet embedded -->
+				<section >
+					<blockquote class="twitter-tweet tw-align-center" data-lang="en"><p lang="en" dir="ltr">&quot;A data scientist is a statistician who lives in San Francisco&quot; <a href="https://t.co/NAftOI9jmJ">pic.twitter.com/NAftOI9jmJ</a> via <a href="https://twitter.com/smc90?ref_src=twsrc%5Etfw">@smc90</a></p>&mdash; Chris Dixon (@cdixon) <a href="https://twitter.com/cdixon/status/428914681911070720?ref_src=twsrc%5Etfw">January 30, 2014</a></blockquote>
+					<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+				</section>
+				
+				<!-- Slide with direc png embed -->
+				<section>
+						<h4>Title</h4>
+						<img src="pics/example_jpg.jpg" width="70%" height="70%">
+						<p><small>- ggg</small></p>
+				</section>
+				
+				<!-- Ending slide-->
+				<section class="center" style="text-align: left">
+					<h1 style="text-align: center">Thank you!</h1>
+					<p style="text-align: center"><a href="https://twitter.com/VilleEcon" class="fa fa-twitter"></a> @VilleEcon</p>
+					<p style="text-align: center"><a href="http://noobquant.site/">noobquant.site</a></p>
+					<p>References</p>
+					<ul style="text-align: left">
+						<li style="font-size:60%">xxx.</li>
+						<li style="font-size:60%">yyy.</li>
+						<li style="font-size:60%">zzz.</li>
+					</ul>
+				</section>				
+
+			</div>
+			
+		</div>
+
+		<script src="reveal.js/js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+
+				history: true,
+				center: false,
+
+				dependencies: [
+					{ src: 'reveal.js/plugin/markdown/marked.js' },
+					{ src: 'reveal.js/plugin/markdown/markdown.js' },
+					{ src: 'reveal.js/plugin/notes/notes.js', async: true },
+					{ src: 'reveal.js/plugin/highlight/highlight.js', async: true },
+					{ src: 'https://d3js.org/d3.v5.min.js', },
+					{ src: 'reveal.js/plugin/d3js/d3js.js' },
+					{ src: 'reveal.js/plugin/embed-tweet/embed-tweet.js' },								
+				]
+			});
+		</script>
+	</body>
+</html>
